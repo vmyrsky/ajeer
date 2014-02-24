@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>REST test</title>
+<!-- This file serves for testing that the REST API works -->
+<script src="js/jquery-1.10.2.js"></script>
+</head>
+<body>
+  <h3>REST test</h3>
+  <button id="test1" onclick="doAjax()">do ajax test</button>
+
+  <p id="plain-content">plain js content not set</p>
+  <script>
+			$("#plain-content").html("content by initial jquery")
+		</script>
+  <script>
+			function doAjax() {
+				$
+						.ajax(
+								{
+									type : "GET",
+									url : "http://localhost:8080/jeer/rest/phonebook?param=value",
+									contentType : "text/plain; charset=utf-8",
+									dataType : "text",
+								}).done(function(data) {
+							$("#plain-content").html(data);
+						});
+			}
+		</script>
+</body>
+</html>

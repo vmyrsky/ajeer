@@ -1,0 +1,23 @@
+See ubuntu_derby_Setup.txt first if you do not have derby set up yet
+
+Create a connection to derby from eclipse (used in this example: Kepler Service Release 1):
+- Open 'File' > 'new' > 'other'
+- Write 'connect' to search field
+- Select 'Connection Profile' > 'Derby' and fill in the fields:
+ * Database = 'phonebook'
+ * host = 'localhost'
+ * port = '1527' // Default for derby
+ * username = 'APP' // Default for derby
+ * password = 'APP' // Default for derby
+ * Note: Have the 'Create database (if you want)' checked
+ 
+ - You may test the connection to validate everything is ok (note: the server must be running, see ubuntu_derby_Setup.txt 1st)
+ 
+ - Open a new 'view'
+  * Select 'Window' > 'Show View' > 'Other'
+  * Write 'data' to search field
+  * Select 'Data Source Explorer'
+  
+  - You should be able to see the database in the 'Data Source Explorer'
+   * Also, if you had the 'Create database' option selected, you should see > 'New Derby' > 'JPA4Angular'
+   * (you may rename 'New Derby' by right clicking on the name)

@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>example</groupId>
+  <artifactId>jpa2</artifactId>
+  <version>0.10.0</version>
+  <packaging>jar</packaging>
+  <name>test</name>
+  <description>The entities do have xml mapping info for converting the data to json</description>
+  <properties>
+    <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.jpa</artifactId>
+      <version>2.5.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- e.g. StringUtils -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.0</version>
+    </dependency>
+
+    <!-- metamodel generation -->
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>javax.persistence</artifactId>
+      <version>2.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- derby for tests -->
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.10.1.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <version>1.1.2.Final</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.shrinkwrap.resolver</groupId>
+      <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+      <version>2.1.0-alpha-1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>1.1.2.Final</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>maven-annotation-plugin</id>
+      <url>http://maven-annotation-plugin.googlecode.com/svn/trunk/mavenrepo</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>arquillian-glassfish-embedded</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.arquillian.container</groupId>
+          <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+          <version>1.0.0.CR4</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.main.extras</groupId>
+          <artifactId>glassfish-embedded-all</artifactId>
+          <version>3.1.2</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <testResources>
+          <testResource>
+            <directory>src/test/resources</directory>
+          </testResource>
+          <testResource>
+            <directory>src/test/glassfish-embedded</directory>
+          </testResource>
+        </testResources>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.16</version>
+            <configuration>
+              <systemPropertyVariables>
+                <java.util.logging.config.file>
+                  ${project.build.testOutputDirectory}/logging.properties
+                </java.util.logging.config.file>
+                <derby.stream.error.file>
+                  ${project.build.directory}/derby.log
+                </derby.stream.error.file>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.bsc.maven</groupId>
+            <artifactId>maven-processor-plugin</artifactId>
+            <version>2.2.4</version>
+            <!-- You may need to update m2e plugin in eclipse. -->
+            <!-- Hover on the 'executions' element showing the error and select to update -->
+            <executions>
+              <execution>
+                <id>process</id>
+                <goals>
+                  <goal>process</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <compilerArguments>-Aeclipselink.persistencexml=src/main/resources/META-INF/persistence.xml</compilerArguments>
+                  <processors>
+                    <processor>org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor</processor>
+                  </processors>
+                  <defaultOutputDirectory>${project.build.directory}/generated-sources</defaultOutputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+                <version>2.5.0</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

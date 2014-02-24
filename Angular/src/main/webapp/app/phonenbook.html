@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" ng-app="angularPOC">
+<head>
+<meta charset="utf-8" />
+<title>Angular using Java EE REST</title>
+<link rel="stylesheet" href="/Angular/app/css/app.css" />
+
+<!-- Libraries -->
+
+<!-- place jquery BEFORE angular -->
+<script src="/Angular/app/lib/jquery/jquery-1.10.2.js"></script>
+<script src="/Angular/app/lib/jquery/jquery-ui-1.10.3.js"></script>
+<script src="/Angular/app/lib/angular/angular.js"></script>
+
+<!-- This is needed with angular v. 1.2 and newer -->
+<script src="/Angular/app/lib/angular/angular-route.js"></script>
+
+<!-- Routes and config-->
+<script src="/Angular/app/js/app.js"></script>
+
+<!-- Services -->
+<script src="/Angular/app/js/services/RestServices.js"></script>
+<script src="/Angular/app/js/services/SharePersonDataService.js"></script>
+
+<!-- Controllers -->
+<script src="/Angular/app/js/controllers/MainController.js"></script>
+<script src="/Angular/app/js/controllers/DetailsController.js"></script>
+
+<!-- Directives -->
+<script src="/Angular/app/js/directives/AddDirectives.js"></script>
+
+</head>
+<!-- AngularJS; Best Practice: Prefer using the dash-delimited format (e.g. ng-bind for ngBind) -->
+<body ng-app="jeea" ng-controller="MainController" class="default">
+  <div>
+    <div class="links">
+      <ul>
+        <li><a href="#/ajeer">Main</a></li>
+        <li><a href="#/ajeer/details/id">Details</a></li>
+      </ul>
+    </div>
+
+    <!-- Content here is loaded from the file specified with the 'templateUrl' in app.js -->
+    <ng-view></ng-view>
+  </div>
+
+  <br />
+  <br />
+  <div>Please excuse the crude styling, one could spend hours with it (I didn't :)</div>
+  <div>There are also few minor bugs, but the idea is to demonstrate the technique, not to make this perfect app</div>
+  <br />
+  <div id="test">
+    <h3>Test REST by JQuery</h3>
+    <button id="test1" onclick="doAjax1()">do ajax 1</button>
+    <button id="test3" onclick="doAjax2()">do ajax 2</button>
+
+    <p id="plain-content">plain js content not set</p>
+    <script>
+					$("#plain-content").html("content by initial jquery")
+				</script>
+
+    <p id="json-content">json content not loaded yet</p>
+    <script>
+					function doAjax1() {
+						$
+								.ajax(
+										{
+											type : "GET",
+											url : "http://localhost:8080/jeer/rest/phonebook?param=value",
+											contentType : "text/plain; charset=utf-8",
+											dataType : "text",
+										}).done(function(data) {
+									$("#plain-content").html(data);
+								});
+					}
+
+					function doAjax2() {
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8080/jeer/rest/phonebook",
+							contentType : "text/plain; charset=utf-8",
+							dataType : "json",
+						}).done(function(data) {
+							$("#json-content").html(JSON.stringify(data));
+						});
+					}
+				</script>
+  </div>
+</body>
+</html>

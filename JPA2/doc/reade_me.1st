@@ -1,0 +1,5 @@
+Read the documents in following order to have derby + jpa working with Ubuntu + Eclipse (kepler)
+
+1. ubuntu_derby_setup.txt (Instructions as example for Ubuntu, google for instructions for other OS'es)
+2. eclipse_derby_connection.txt
+3. jpa_stuff.txt

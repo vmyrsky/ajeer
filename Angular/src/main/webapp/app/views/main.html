@@ -1,0 +1,55 @@
+<!-- In order to use formController, we specify a normal form -->
+<form name="personsForm">
+  <!-- The controller is already/also defined in the app.js -->
+  <!-- The json structure of a person is defined in entity of jpa2...Person.java -->
+  <div id="filter_label">
+    <label for="filter">Filter persons</label>
+  </div>
+  <div id="filter">
+    <input type="text" class="person_filter" ng-model="personFilter" />
+  </div>
+  <div id="header" class="header">List of all persons in the phonebook</div>
+  <div id="phonebook_table" class="table">
+    <div id="person_col0_header" class="col0 header">id</div>
+    <div id="person_col1_header" class="col1 header">name(s)</div>
+    <div id="person_col2_header" class="col2 header">last name</div>
+    <!-- Angular; Best Practice: Prefer using directives via tag name and attributes over comment and class names -->
+    <div id="person_row" class="row" ng-class-even="'evenRow'" ng-class-odd="'oddRow'"
+      ng-repeat="person in persons  | filter:personFilter">
+      <!-- Seems like a bug: elements after directive in repeat won't get rendered -->
+      <div id="col_remove" class="remove" ng-click="removePerson(person.id)">&nbsp;</div>
+      <div id="col0" class="col0 cell selectable" ng-click="selectPerson(person)">{{person.id}}</div>
+      <!-- Angular directive -->
+      <add-edit-text-fields field1="person.names" field2="person.lastName" style1="col1 cell selectable"
+        style2="col2 cell selectable" />
+    </div>
+    <div id="new_person_row" class="row">
+      <div id="col1" class="col1 cell">
+        <div>
+          <label for="names">A list of names (white space separated)</label>
+        </div>
+        <input id="names" type="text" ng-model="newPerson.names" />
+      </div>
+      <div id="col1" class="col2 cell">
+        <div>
+          <label for="lastname">last name (min 2 chars)</label>
+        </div>
+        <input id="lastname" type="text" ng-model="newPerson.lastName" />
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <a id="addPerson" ng-click="addPerson()" class="add">add new person</a>
+  </div>
+  <div id="buttons" class="buttons">
+    <div class="save_button">
+      <button ng-disabled="personsForm.$pristine" id="saveChanges" ng-click="savePersonChanges()" class="save_button">Save
+        changes</button>
+    </div>
+    <div class="cancel_button">
+      <button ng-disabled="personsForm.$pristine" id="cancelChanges" ng-click="cancelPersonChanges()" class="cancel">Cancel
+        changes</button>
+    </div>
+  </div>
+</form>

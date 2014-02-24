@@ -1,0 +1,9 @@
+<span>
+  <!-- Content must be inside a single root element, including comments -->
+  <div id="col1"  ng-hide="editable" ng-click="setEditable('true')"class="{{style1}}">{{field1}}</div>
+  <div id="col2"  ng-hide="editable" ng-click="setEditable('true')" class="{{style2}}">{{field2}}</div>
+
+  <input id="col1_edit" ng-show="editable" type="text" class="{{style1}}" ng-model="field1" />
+  <input id="col2_edit" ng-show="editable" type="text" class="{{style2}}" ng-model="field2" />
+  <div id="col_ok" ng-show="editable" class="ok" ng-click="setEditable('false')" >&nbsp;</div>
+<span>

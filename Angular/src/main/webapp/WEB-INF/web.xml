@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Angular with Java EE</display-name>
+	<description>
+		Angular.js using Java EE REST (Jersey) using JPA2 with Arquillian
+	</description>
+	<welcome-file-list>
+		<welcome-file>/app/phonenbook.html</welcome-file>
+	</welcome-file-list>
+</web-app>

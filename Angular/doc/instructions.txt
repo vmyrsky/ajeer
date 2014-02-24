@@ -1,0 +1,45 @@
+----- Eclipse (Kepler) -----
+
+1) Configure facets
+ * Right click on the "project name" (Angular) in Navigator / Project Explorer
+ * Select 'properties'
+ * Open 'Project Facets'
+ * Select the following facets
+  > Dynamic Web Module | 3.0 (or 3.1) > Further configuration >
+                                        - Context Root: Angular
+                                        - Content Directory: src/main/webapp
+                                        - Leave 'generate web.xml' unchecked
+  > NOTE: This will enable you the project property 'Deployment assembly' and makes it
+    available to deploy the project onto container
+  > Java               | 1.7
+  > JavaScript         | 1.0
+
+
+----- Project structure -----
+
+To have "java like" project structure and to avoid having too large javascript & html file clusters, the web content is
+structured as follows:
+ * /src/main/java/ (Nothing as you probably don't want to have any java with this project)
+ * /src/main/resources/META-INF/manifest.mf (Not needed actually)
+ * /src/main/WEB-INF/web.xml (This is needed for the container to tell where to start when the app is accessed with
+   browser)
+  > e.g. http://localhost:8080/Angular => localhost:8080/Angular/app/phonenbook.html
+                                       => http://localhost:8080/Angular/#/ajeer
+ * /src/main/js/         | If you want some javascript that is not involved with Angular, put it here
+ * /src/main/webapp/app/ | All the stuff you want to involve the Angular with
+  > css                  | The style sheets
+  > img                  | Images used
+  > lib                  | Here will be all the libraries needed by Angular itself to function
+  > views                | The (sub) views used by Angular to render the content on page the app.js directs to
+   - templates             | The html-templates used by the directives
+  > js                   | The actual Angular stuff
+   - controllers           | The scripts per (sub)page, handling actions done in them
+   - directives            | If you want to add custom functionality that affects the page rendering, put the
+                             instructions here
+   - services              | Functionality common to different controllers can be put here
+ * /src/main/webapp/app/app.js          | This file will function as the navigation controller. It will parse the url
+                                          and select what to render based on the url parts it finds
+ * /src/main/webapp/app/phonenbook.html | This will act as the starting point for the whole application.
+                                          The file will include all the scripts needed to load Angular and will provide
+                                          the basic layout for the whole SPA (Single Page Application)
+ 

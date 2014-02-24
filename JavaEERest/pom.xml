@@ -1,0 +1,152 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>example</groupId>
+  <artifactId>jeer</artifactId>
+  <packaging>war</packaging>
+  <version>0.10.0</version>
+  <name>Java EE REST</name>
+  <dependencies>
+    <dependency>
+      <groupId>example</groupId>
+      <artifactId>jpa2</artifactId>
+      <version>0.10.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Jersey / JAX-RS -->
+    <!-- If you are using Glassfish application server, you don't need to package anything with your application, everything 
+      is already included. You just need to declare (provided) dependency on JAX-RS API to be able to compile your application. -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- This will have the EclipseLink as the JPA provider -->
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.jpa</artifactId>
+      <version>2.5.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Needed to provide API for all EE related stuff (e.g. annotations, for example contains JAXB) -->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Needed to configure moxy as the json provider -->
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-moxy</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+
+    <!-- JUnit for unit testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- reference implementation of CDI -->
+    <dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-core</artifactId>
+      <version>1.1.5.Final</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- This is needed to provide embedded EJBContainer for testing -->
+    <!-- <dependency> -->
+    <!-- <groupId>org.glassfish.extras</groupId> -->
+    <!-- <artifactId>glassfish-embedded-all</artifactId> -->
+    <!-- <version>3.1.1</version> -->
+    <!-- <scope>test</scope> -->
+    <!-- </dependency> -->
+    <!-- </dependencies> -->
+
+    <!-- Needed for bean validation test -->
+    <dependency>
+      <groupId>org.glassfish.jersey.ext</groupId>
+      <artifactId>jersey-bean-validation</artifactId>
+      <version>2.5.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2/</url>
+      <layout>default</layout>
+    </repository>
+    <repository>
+      <id>maven-repository.dev.java.net</id>
+      <name>Java.net Maven 1 Repository (legacy)</name>
+      <url>http://download.java.net/maven/1</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+
+  <profiles>
+    <profile>
+      <id>defaultProfile</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <activation>
+        <property>
+          <name>environment</name>
+          <value>test</value>
+        </property>
+      </activation>
+    </profile>
+  </profiles>
+
+  <build>
+    <finalName>jeer</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <debug>true</debug>
+          <debuglevel>none</debuglevel>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <debug>true</debug>
+          <!-- <debuglevel>none</debuglevel> -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <failOnMissingWebXml>true</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

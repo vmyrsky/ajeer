@@ -1,0 +1,39 @@
+Installing all the required components:
+
+1) Install oracle java (note, you may need to enable the 'multiverse' repository):
+- http://askubuntu.com/questions/89096/how-do-i-enable-the-multiverse-repository
+- https://help.ubuntu.com/community/Java
+
+2) Install derby (do not use 'open' java)
+- http://angshukutu.wordpress.com/2012/09/01/install-apache-derby-on-ubuntu/
+>>
+sudo apt-get install sun-javadb-client sun-javadb-core
+<<
+ set to environment variables (e.g. in ~/.bashrc):
+>>
+ export PATH=$PATH:/usr/share/javadb/bin/
+ export DERBY_HOME=/usr/share/javadb
+<<
+
+3) You may need to change the permissions for the 'derby.log' file in $DERBY_HOME
+>>
+ cd $DERBY_HOME
+ sudo chmod 666 derby.log
+<<
+
+4) You may need to change security setting to use derby
+>>
+ sudo vi $JAVA_HOME/jre/lib/security/java.policy
+<<
+You need to add this line to the 'grants'
+>>
+ permission java.net.SocketPermission "localhost:1527", "listen";
+<<
+
+After the mentioned edits, you should be able to start derby by calling (anywhere)
+>>
+ startNetworkServer
+<<
+
+You may also add this to be a daemon process (starts automatically) when the computer starts
+- TODO

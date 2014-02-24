@@ -1,0 +1,173 @@
+----- Eclipse -----
+
+I have used eclipse (Kepler) with this project, there are some configurations that need to be done in order to make
+ this work properly with eclipse
+
+1. Use Oracle Java 1.7 JDK (1.7 also with glassfish)
+ * http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+ * In eclipse, select 'Window' > 'Preferences' > 'Installed JREs'
+ * Click 'Add' and select the location where you have installed the java
+
+2. Facets
+ * Right click on "project name" > 'properties' > 'Project Facets'
+ * Have the following facets selected:
+  > Dynamic Web Module | 3.0 > Further configuration >
+                               - Context Root: jeer
+                               - Content Directory: src/main/webapp
+                               - Leave 'generate web.xml' unchecked
+                             > NOTE: This will enable you the project property 'Deployment assembly' and makes it
+                               available to deploy the project onto container 
+  > Java               | 1.7
+  > JAX-RS             | 2.0
+  > JAXB               | 2.2
+  > JPA                | 2.1 > Further configuration >
+                               - EclipseLink 2.5.x
+                               - Disable library configuration
+
+3. JPA metamodel generation
+ * The meta model generation is configured in pom.xml (in JPA2 project).
+ * You need to compile the project once to have generated files (compile with maven 3.x).
+ * Have the generated sources folder introduced in project build path (in Eclipse)!
+ * Right click on "project name" 'JPA2' > 'properties' > 'Java Build Path'
+ * Select 'Add Folder' and choose 'target' > 'generated-sources'
+ 
+4. Update m2e plugin
+ * In pom.xml you may have error on row with element 'executions'
+ * Hover on the 'executions' element underlined/showing the error
+ * select to update => This should fix the error
+  
+5. Plausible bug with m2e plugin (or Eclipse & GlassFish plugin!?)
+ * When deployed via Eclipse to the container (GlassFish), it is possible that there will be an error stating that the
+   'Person' class can not be found.
+   The jar is included in the war in the build (you can check this if you want), but for some reason it is not
+   discovered by the ClassLoader.
+   If the war is deployed via GlassFish web-UI, it works fine.
+ * To fix this (in Eclipse) you have to specify in the 'deployment assembly' the exact library you are using in order
+   for the ClssLoader to find it
+   > Right click on "project name" 'JavaEERest' > 'Deployment Assembly' (you must have the facet 'Dynamic Web Project'
+     to have this)
+   > Specify the path to the jpa2.jar e.g. JPA2/target/jpa2.jar
+    - Mind the version. You can also use SNAPSHOT if you do continuous development
+    - The target dir will be 'WEB-INF/lib/'
+  
+  
+----- Database -----
+
+I have used Derby when creating this example, but you could switch to any database supported by the (persistence)
+  provider you decide to use
+ * Edit the persistence.xml (in JPA2 project, src/main/resources/META-INF/ <= By default it is set to use EclipseLink
+   & Derby)
+ * Update the pom.xml to have the required libraries (By default EclipseLink & Derby)
+
+1. It is important that if you use derby, that you will run the 'startNetworkServer' command
+   on the same location always as the database it uses will be looked up to from that location!
+   
+2. To install Derby
+ * Note: You should have the oracle java jdk
+ * Ubuntu (Linux): For detailed instructions see the 'readme_1st.txt' in JPA2 project
+ * Other: https://db.apache.org/derby/derby_downloads.html
+ * Instuctions with Eclipse 'eclipse_derby_connection.txt' in JPA2 project
+ 
+
+ ----- Application container -----
+
+There are some features that take advantage of the JavaEE7.
+Therefore this sample application uses GlassFish4, which is the reference implementation for JavaEE7.
+ * You could ditch the EE-application server all together and use some light weight app-server(s) also (like jetty
+   and/or the Grizzly HTTP Server), but since the JPA works as container managed mode a suitable container (GlassFish)
+   is needed => You could do everything in JPA with SDK also, but that would required a bit more coding.
+ * Download GlassFish (4.x) from:
+  > https://glassfish.java.net/download.html
+  > In linux system you have to make the 'glassfish-4.0-unix.sh' executable
+  > Run the file from commandline: ./glassfish-4.0-unix.sh
+  > Leave everything to default values for now (If you change anything, you must take this into account later)
+ * Go to http://localhost:4848
+  > Configure debug
+   - Go to: 'Configurations' > 'server-onfig' > 'JVM setting'
+   - Check 'Debug enabled'
+   - 'Save'
+ * Next create a database pool
+  > 'Resources' > 'JDBC' > 'JDBC Connection Pools'
+  > Click 'new'
+   - Pool Name: "JPA Pool"
+   - Resource Type: "javax.sql.DataSource"
+   - Database Driver Vendor:"Derby"
+   - Click 'Next'
+   - Have 'Ping: Enabled'
+  > Scroll down to 'additional properties and fill in the following info:
+   - DatabaseName: "phonebook"
+   - CreateDatabase: "true"
+   - Password: "APP"
+  > Click 'Finish'
+  > Select the pool you just created from the list
+  > Click 'Ping' => This should succeed
+   - If this fails¸ check that your db is running and that other information provided is correct
+ * Next create a JNDI resource
+  > 'Resources' > 'JDBC' > 'JDBC Resources'
+  > Click 'new'
+   - JNDI Name: "jdbc/phonebook"
+   - Pool Name: <Select the pool you just created>
+   - Click 'Ok'
+ * When you have the above done, instructions given in 'persistence.xml' will have the JPA use the data source you
+   specified.
+ * Note: You could also connect to the database directly by providing all the info in 'persistence.xml'
+    
+ * To deploy the 'Angular' and 'JavaEERest' to the container (via Eclipse):
+  > Open 'Window' > 'Show View' > 'Other' > 'Servers' => This will open a new window 'Servers'
+  > In the 'Servers' window, click on 'new' (or right click and select 'new' > 'Server')
+  > You may need to 'Download additional adapters' > browse for 'GlassFish' (4.x)
+  > Highlight the option > click 'next' > 'Accept the terms' > 'finish'
+  > In the 'new Server' list, browse for 'GlassFish 4.0' and highlight it
+  > Select 'next'
+  > Uncheck the box 'preserve sessions across the deployment' (basically there is no reason to have this, so we won't
+    have any extra)
+  > Click 'next' > 'Finish'
+   - You can leave all the values to defaults unless you changed any of them when installing the GlassFish + domain
+  > If the server is not yet started, start it by right clicking on the instance name and select 'Start'
+  > Right click on the 'servers' on the server instance you created
+  > Select 'Add and Remove'
+   - In the available list you should be able to see both 'Angular' and 'JavaEERest' project
+   - Select both > 'add >'
+   - Click 'Finish'
+  > Both project should be deployed to the server
+   - If there is error in deploying the 'JaveEERest', see 'Eclipse' > 5. Plausible bug (in this document)
+   - Right click on the server instance and select 'Publish' if you had to do some fixing
+  > I prefer to turn off the auto deployment feature, though this may be useful if you develop just Angular part
+   - To turn off the autodeploy, double click on the server instance in 'servers' window
+   - Expand 'Publishing' options
+   - Select 'Never publish automatically'
+   - Save changes (press ctrl+S or click the disc icon in tool bar)
+   - You may need to restart the server
+  > By expanding the server instance in 'servers' window, you can see in a list the applications selected for the
+    server
+  > Behind the project/application name reads the status of the deployed application compared with your workspace
+  > If this says other than '[Synchronized]', you need to 'publish' applications for the server (if you have turned
+    the auto publish off)
+   - Right click on the server instance and select 'Publish' => This should result in the server reloading the conten
+     and if succesfull
+     The status for each application should get to '[Synchronized]'
+   - If you do debugging, you should have the '[Synchronized]' status or you will get program halted at bogus
+     breakpoints
+     (the line number for break points may not match and the content may differ from what you actually have)
+
+
+There may be additional plugins to help you develop with Angular using Eclipse, but I did not look for them separately.
+I have seen that there are features in other IDEs that support Angular development, but I prefer using using Eclipse
+even though it may
+be a bit complicated sometimes, but it is free and generally you can do everything with it if you can spare few moments
+to configure everything. You can always search for additional plugins that may be useful to you.
+
+
+Users new to Linux:
+On some rare occasions you may get eclipse frozen. You can wait if it will unfreeze again, but if you are inpatient,
+you can kill the process:
+> open terminal (ctrl + alt + T in Ubuntu) and type
+> sudo ps -xa | grep eclipse
+ - You should know the root password
+ - This gets the list of processes with 'eclipse' key word
+ - Find the process id from the output (digits at the beginning of the line with lots of text, like '9804')
+> sudo kill -9 9804
+ - Will force the eclipse to shut down
+> Note you will lose any unsaved data
+   
+  

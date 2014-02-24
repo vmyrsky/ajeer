@@ -1,0 +1,156 @@
+/* app css stylesheet */
+.default {
+  background-color: orange;
+  color: navy;
+  cursor: default;
+}
+
+.links {
+  color: blue;
+  cursor: pointer;
+}
+
+.table {
+  width: 720px;
+  border: 1px solid #000;
+}
+
+.phonenumber_table {
+  width: 970px;
+  border: 1px solid #000;
+}
+
+.header {
+  font-size: 18px !important;
+  color: navy !important;
+  cursor: default;
+  border: 1px solid #000;
+  display: inline-block;
+  padding: 2px;
+  background-color: #66FFCC;
+}
+
+.row {
+  font-size: 14px;
+  clear: left;
+  font-size: 14px;
+  color: black;
+}
+
+.col0 {
+  width: 40px;
+  font-size: 14px;
+  color: blue;
+  display: inline-block;
+}
+
+.col1 {
+  width: 300px;
+}
+
+.col2 {
+  width: 300px;
+}
+
+.number_col1 {
+  width: 100px;
+}
+
+.number_col2 {
+  width: 200px;
+}
+
+.number_col3 {
+  width: 600px;
+}
+
+.cell {
+  border: 1px solid #000;
+  padding: 2px;
+  display: inline-block;
+}
+
+.selectable {
+  cursor: pointer !important;
+}
+
+.evenRow {
+  background: #FFFFCC;
+}
+
+.oddRow {
+  background: #FFFF99;
+}
+
+.add {
+  position: relative;
+  font-size: larger;
+  color: green;
+  cursor: pointer !important;
+}
+
+.ok {
+  position: relative;
+  vertical-align: top;
+  height: 1.5em;
+  width: 1.5em;
+  background-image: url(/Angular/app/img/ok.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer !important;
+  display: inline-block;
+}
+
+.remove {
+  position: relative;
+  float: right;
+  vertical-align: top;
+  height: 1.5em;
+  width: 1.5em;
+  background-image: url(/Angular/app/img/remove.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer !important;
+  display: inline-block;
+}
+
+.buttons {
+  width: 300px;
+}
+
+.save_button {
+  position: relative;
+  float: left;
+  display: inline-block;
+}
+
+.cancel_button {
+  position: relative;
+  float: left;
+  display: inline-block;
+}
+
+.person_filter {
+  width: 400px;
+  color: black;
+  position: relative;
+}
+
+.messageArea {
+  border: 1px solid #000;
+}
+
+.OK {
+  color: green;
+  background: aqua;
+}
+
+.WARNING {
+  color: orange;
+  background: aqua;
+}
+
+.ERROR {
+  color: red;
+  background: aqua;
+}

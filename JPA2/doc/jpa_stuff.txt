@@ -1,0 +1,35 @@
+To have the JPA working and the database tables created from entities, do the following:
+
+1) Create 'persistence.xml' at META-INF directory on classpath (META-INF is the default location for it)
+ * e.g. The following will do:
+  > src/resources/META-INF
+  > src/webapp/WEB-INF/META-INF (Use this, if you have a web project)
+ * An example file is provided with this project seed in 'src/resources/META-INF/persistence.xml' (delete this if you
+   provide you own somewhere else)
+ * There are also an example test with Arquillian. It does have it's own persistence.xml file in
+   'src/test/glassfish-embedded/test-persistence.xml'
+ * In the persistence file, you can have simply '<jta-data-source>jdbc/phonebook</jta-data-source>' which tells that
+   the data source provided by GlassFish is then used and configurations put there will be used
+
+Optional: (If you decide to bypass the GlassFish provided connection, you can also connect to db directly, but you must
+use eclipse to create the database and it's tables)
+2) Configure the 'persistence.xml' to have the correct connection properties for the derby database you created earlier
+ * Omit the 'jta-data-source' element
+ * In '<properties>' have the following <property name="xxx" value"yyy" /> settings
+  > javax.persistence.jdbc.url = jdbc:derby://localhost:1527/phonebook;create=true
+  > javax.persistence.jdbc.user = APP
+  > javax.persistence.jdbc.password = APP
+   - Of course you should modify the default user/password later, but this will suffice at this point
+ * NOTE: transaction-type="JTA" (You must run the JPA in a 'container', e.g. GlassFish)
+  
+2) Have at least one entity (pojo annotated with @Entity)
+ * See example in src/main/java/com/example/entity/Person.java
+
+4) In project faces, check the JPA-facet
+ * Right click on project name > 'Properties'
+ * Type 'facet' in search field and select 'Project Facets'
+ * Check the facet 'JPA' > select version 2.0 or 2.1 (should make no difference in this example)
+  
+  Note: The database and it's tables should be automatically created when you start the container and publish the
+  (JavaEERest) project
+ 

@@ -1,0 +1,1 @@
+Each project has a 'doc' folder in which are more specific instructions on how to make things work

@@ -1,0 +1,12 @@
+target/
+.settings/
+.svn/
+.metadata/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+release.properties
+.classpath
+.project
+.factorypath
+derby.log
