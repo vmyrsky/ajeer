@@ -2,7 +2,7 @@
 
 // AngularJS; Best Practice: Prefer using the definition object over returning a function
 var angularPOC = angular.module('angularPOC');
-angularPOC.factory('SharePersonDataService', function() {
+angularPOC.factory('ShareDataService', function() {
 	var person = '';
 
 	var service = {
