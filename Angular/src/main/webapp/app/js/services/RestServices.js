@@ -2,7 +2,7 @@
 
 // AngularJS; Best Practice: Prefer using the definition object over returning a function
 var angularPOC = angular.module('angularPOC');
-angularPOC.factory('RestServices', [ '$http', function($http) {
+angularPOC.factory('RestServices', ['$http', 'ShareDataService', function($http, ShareDataService) {
 
 	var service = {
 		getHello : function(successCallback, failCallback) {
@@ -20,6 +20,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "text/plain"
 				}
 			}).success(function(data, status) {
+				
 				console.log("success: " + JSON.stringify(data.responseStatus));
 				successCallback(data);
 			}).error(function(status) {
@@ -46,6 +47,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
+							
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					console.log("success: " + data.responseStatus);
 					successCallback(data);
@@ -70,7 +73,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -93,7 +97,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -116,7 +121,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -139,7 +145,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -162,7 +169,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -185,6 +193,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
+				
 				console.log("success: " + data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
@@ -208,7 +217,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -231,7 +241,8 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "application/json"
 				}
 			}).success(function(data, status) {
-				console.log("success: " + data.responseStatus);
+				
+				ShareDataService.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
 				} else {
@@ -254,6 +265,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					"Content-Type" : "text/plain"
 				}
 			}).success(function(data, status) {
+				
 				console.log("success: " + data.responseStatus);
 				if (data.responseStatus == "OK") {
 					successCallback(data);
@@ -266,7 +278,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 				console.log("error: " + JSON.stringify(status));
 				failCallback();
 			});
-		},
+		}
 	};
 	return service;
 } ]);

@@ -32,7 +32,7 @@
 
 </head>
 <!-- AngularJS; Best Practice: Prefer using the dash-delimited format (e.g. ng-bind for ngBind) -->
-<body ng-app="jeea" ng-controller="MainController" class="default">
+<body ng-app="jeea" ng-controller="MessageController" class="default">
   <div>
     <div class="links">
       <ul>
@@ -41,9 +41,14 @@
       </ul>
     </div>
 
-    <div ng-controller="MessagesController" class="messages">
-      <div id="messages" ng-class="{{messageTypeClass}}">{{messageText}}</div>
+    <div id="messages" class="messages" ng-show="hasMessages">
+      <div>Messages</div>
+      <div id="messagesList" ng-repeat="message in messages">
+        <div id="message" ng-class="message.type">{{message.text}}</div>
+      </div>
     </div>
+    <br />
+    <button ng-click="getMessages()">Show messages</button><br />
 
     <!-- Content here is loaded from the file specified with the 'templateUrl' in app.js -->
     <ng-view></ng-view>

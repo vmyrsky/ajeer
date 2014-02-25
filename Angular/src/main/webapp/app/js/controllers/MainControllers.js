@@ -60,8 +60,6 @@ angularPOC
 							} ];
 							$scope.useDemoData = false;
 							$scope.newPerson = '';
-							$scope.message = '';
-							$scope.messageStyle = '';
 
 							// For testing
 							$scope.getHello = function() {

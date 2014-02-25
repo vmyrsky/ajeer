@@ -1,21 +1,32 @@
 'use strict';
 
-var DetailsControllers = angular.module('MessageControllers', []);
+var MessageControllers = angular.module('MessageControllers', []);
 
 var angularPOC = angular.module('angularPOC');
-angularPOC
-		.controller(
-				'MessagesController',
-				[
-						'$scope',
-						'$routeParams',
-						'RestServices',
-						'ShareDataService',
-						function($scope, $routeParams, RestServices,
-								ShareDataService) {
+angularPOC.controller('MessageController', [ '$scope', '$routeParams',
+		'ShareDataService', function($scope, $routeParams, ShareDataService) {
 
-							$scope.messageText = ["test"];
-							$scope.messageTypeClass = "INFO";
-							
-							
-						} ]);
+//			$scope.ShareDataService = ShareDataService;
+			$scope.messages = ShareDataService.getMessages();
+
+//			$scope.$watch('ShareDataService.messages', function(newVal, oldVal, scope) {
+//				alert(JSON.stringify(newVal));
+//				scope.messages = [{'text': "Errrr", type:"OK"}];
+//			});
+
+			$scope.getMessages = function() {
+				
+				$scope.messages = ShareDataService.getMessages();
+//				alert(JSON.stringify($scope.messages));
+			}
+
+			$scope.clearMessages = function() {
+				$scope.messages = [];
+			};
+
+			$scope.hasMessages = function() {
+				$scope.messages = ShareDataService.getMessages();
+				return ($scope.messages != 'undefined' && $scope.messages > 0);
+			};
+
+		} ]);

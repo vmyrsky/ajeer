@@ -136,8 +136,9 @@
   position: relative;
 }
 
-.messageArea {
+.messages {
   border: 1px solid #000;
+  width: 720px;
 }
 
 .OK {
