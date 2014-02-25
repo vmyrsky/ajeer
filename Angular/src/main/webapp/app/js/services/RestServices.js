@@ -32,7 +32,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 			successCallback("mock ok");
 		},
 		getAllPersons : function(successCallback, failCallback) {
-
+			
 			// Modify header 'Content-Type' to affect which REST API
 			// method will answer to the call (see RestJson in JavaEERest)
 			// 'data' needs to be specified => even when empty the call must
@@ -129,7 +129,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 			});
 		},
 		removePerson : function(successCallback, failCallback, id) {
-			
+
 			$http({
 				url : 'http://localhost:8080/jeer/rest/person?personId='+id,
 				dataType : 'json',
@@ -262,7 +262,7 @@ angularPOC.factory('RestServices', [ '$http', function($http) {
 					failCallback();
 				}
 			}).error(function(status) {
-				alert("getPhonenumberTypes " + JSON.stringify(status));
+				
 				console.log("error: " + JSON.stringify(status));
 				failCallback();
 			});

@@ -22,6 +22,43 @@ angularPOC
 								SharePersonDataService) {
 							$scope.style = "default";
 							$scope.hello = "Not called anything yet!";
+							$scope.persons = [ {
+								"id" : 1,
+								"timestamp" : "2014-02-13T16:54:18.498",
+								"names" : "Harry 'Japanese version'",
+								"lastName" : "Potteruu"
+							}, {
+								"id" : 2,
+								"timestamp" : "2014-02-21T08:42:57.852",
+								"names" : "Peter 'Spidey'",
+								"lastName" : "Parker"
+							}, {
+								"id" : 3,
+								"timestamp" : "2014-02-13T11:53:04.903",
+								"names" : "John",
+								"lastName" : "Rambo"
+							}, {
+								"id" : 4,
+								"timestamp" : "2014-02-13T11:53:04.911",
+								"names" : "Jason",
+								"lastName" : "Voorhees"
+							}, {
+								"id" : 5,
+								"timestamp" : "2014-02-13T11:54:36.457",
+								"names" : "Wolverine",
+								"lastName" : "Logan"
+							}, {
+								"id" : 6,
+								"timestamp" : "2014-02-20T15:57:36.186",
+								"names" : "Henry VIII",
+								"lastName" : "Tudor"
+							}, {
+								"id" : 7,
+								"timestamp" : "2014-02-17T15:50:57.893",
+								"names" : "Freddy",
+								"lastName" : "Krueger"
+							} ];
+							$scope.useDemoData = false;
 							$scope.newPerson = '';
 							$scope.message = '';
 							$scope.messageStyle = '';
@@ -175,8 +212,13 @@ angularPOC
 									};
 								};
 
-								RestServices.getAllPersons(getPersonsSuccess,
-										getPersonsFail);
+								// Load data from db conditionally
+								if (!$scope.useDemoData) {
+									RestServices.getAllPersons(
+											getPersonsSuccess, getPersonsFail);
+								} else {
+									console.log("Using demo data");
+								}
 							};
 
 							// Remove a single person
