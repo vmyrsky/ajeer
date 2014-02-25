@@ -1,15 +1,17 @@
 'use strict';
 
-// This file lists what to show per given url and which controller is
-// responsible for handling request per file
-// The array lists the modules that angularPOC depends on
+// This file lists what to show per given url and which controllers are
+// responsible for handling requests per file
+// The array lists the MODULES that angularPOC depends on
 // The controllers are defined in their own files to provide better graining of
-// resources
+// resources (Note: reference the module name, not the controller name)
 // The controllers are introduced in each controller with
 // var xxxControllers = angular.module('xxxControllers', []);
-// <= These modules are referred to here
-var angularPOC = angular.module('angularPOC',
-		[ 'ngRoute', 'MainControllers', 'DetailsControllers' ]).config(
+// <= These module names are referred in here
+var angularPOC = angular.module(
+		'angularPOC',
+		[ 'ngRoute', 'MessageControllers', 'MainControllers',
+				'DetailControllers' ]).config(
 		[ '$routeProvider', '$locationProvider',
 				function($routeProvider, $locationProvider) {
 
