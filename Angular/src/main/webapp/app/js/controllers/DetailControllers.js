@@ -1,6 +1,6 @@
 'use strict';
 
-var DetailsControllers = angular.module('DetailsControllers', []);
+var DetailsControllers = angular.module('DetailControllers', []);
 
 var angularPOC = angular.module('angularPOC');
 angularPOC
@@ -10,9 +10,9 @@ angularPOC
 						'$scope',
 						'$routeParams',
 						'RestServices',
-						'SharePersonDataService',
+						'ShareDataService',
 						function($scope, $routeParams, RestServices,
-								SharePersonDataService) {
+								ShareDataService) {
 
 							$scope.personId = $routeParams.personId;
 							$scope.useDemoData = false;
@@ -90,8 +90,8 @@ angularPOC
 
 							$scope.getDetails = function(id) {
 								// Use existing person data if available
-								if (SharePersonDataService.getPerson() != '') {
-									var setId = SharePersonDataService
+								if (ShareDataService.getPerson() != '') {
+									var setId = ShareDataService
 											.getPerson().id;
 									if (setId == $scope.personId) {
 										// This should have the person data set
@@ -99,7 +99,7 @@ angularPOC
 										// coming here from the main page via id
 										// link
 										if (!$scope.useDemoData) {
-											$scope.person = SharePersonDataService
+											$scope.person = ShareDataService
 													.getPerson();
 										} else {
 											console.log("Using demo data");

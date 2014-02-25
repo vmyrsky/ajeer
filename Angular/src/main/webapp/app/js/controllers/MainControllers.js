@@ -17,9 +17,9 @@ angularPOC
 						'$http',
 						'$location',
 						'RestServices',
-						'SharePersonDataService',
+						'ShareDataService',
 						function($scope, $http, $location, RestServices,
-								SharePersonDataService) {
+								ShareDataService) {
 							$scope.style = "default";
 							$scope.hello = "Not called anything yet!";
 							$scope.persons = [ {
@@ -250,7 +250,7 @@ angularPOC
 							$scope.selectPerson = function(person) {
 								console.log("Select person: "
 										+ JSON.stringify(person));
-								SharePersonDataService.setPerson(person);
+								ShareDataService.setPerson(person);
 								var path = "/ajeer/details/" + person.id;
 								console.log("Redirect to: " + path);
 								$location.path(path);
