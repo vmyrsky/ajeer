@@ -23,8 +23,9 @@
 <script src="/Angular/app/js/services/SharePersonDataService.js"></script>
 
 <!-- Controllers -->
-<script src="/Angular/app/js/controllers/MainController.js"></script>
-<script src="/Angular/app/js/controllers/DetailsController.js"></script>
+<script src="/Angular/app/js/controllers/MessageControllers.js"></script>
+<script src="/Angular/app/js/controllers/MainControllers.js"></script>
+<script src="/Angular/app/js/controllers/DetailControllers.js"></script>
 
 <!-- Directives -->
 <script src="/Angular/app/js/directives/AddDirectives.js"></script>
@@ -40,14 +41,17 @@
       </ul>
     </div>
 
+    <div ng-controller="MessagesController" class="messages">
+      <div id="messages" ng-class="{{messageTypeClass}}">{{messageText}}</div>
+    </div>
+
     <!-- Content here is loaded from the file specified with the 'templateUrl' in app.js -->
     <ng-view></ng-view>
   </div>
 
   <br />
   <br />
-  <div>Please excuse the crude styling, one could spend hours with it (I didn't :)</div>
-  <div>There are also few minor bugs, but the idea is to demonstrate the technique, not to make this perfect app</div>
+  <div>There are few minor bugs, but the idea is to demonstrate the technique, not to make this perfect app</div>
   <br />
   <div id="test">
     <h3>Test REST by JQuery</h3>
