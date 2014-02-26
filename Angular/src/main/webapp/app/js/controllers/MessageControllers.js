@@ -3,25 +3,47 @@
 var MessageControllers = angular.module('MessageControllers', []);
 
 var angularPOC = angular.module('angularPOC');
-angularPOC.controller('MessageController', [ '$scope', '$routeParams',
-		'ShareDataService', function($scope, $routeParams, ShareDataService) {
+angularPOC.controller('MessageController', [
+		'$scope',
+		'$routeParams',
+		'$timeout',
+		'ShareDataService',
+		function($scope, $routeParams, $timeout, ShareDataService) {
 
-//			$scope.ShareDataService = ShareDataService;
-			$scope.messages = ShareDataService.getMessages();
+			$scope.shareService = ShareDataService;
+			$scope.messages = ShareDataService.messages;
 
-//			$scope.$watch('ShareDataService.messages', function(newVal, oldVal, scope) {
-//				alert(JSON.stringify(newVal));
-//				scope.messages = [{'text': "Errrr", type:"OK"}];
-//			});
+			$scope.$watch(function() { return ShareDataService.getMessages(); }, function(newVal, oldVal,
+					scope) {
+				$scope.messages = newVal;
+			});
 
-			$scope.getMessages = function() {
-				
-				$scope.messages = ShareDataService.getMessages();
-//				alert(JSON.stringify($scope.messages));
-			}
+			$scope.setMessage = function(messageText, messageType) {
+
+				// timeout prevents digest problems
+				// $timeout(function() {
+				messages = [];
+				messages.push({
+					'text' : messageText,
+					'type' : messageType
+				});
+				// });
+			},
+
+			$scope.addMessage = function(messageText, messageType) {
+
+				// timeout prevents digest problems
+				$timeout(function() {
+					messages.push({
+						'text' : messageText,
+						'type' : messageType
+					});
+				});
+			},
 
 			$scope.clearMessages = function() {
-				$scope.messages = [];
+				ShareDataService.clearMessages();
+				$scope.getMessages();
 			};
 
 			$scope.hasMessages = function() {

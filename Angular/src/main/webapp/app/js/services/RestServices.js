@@ -49,6 +49,7 @@ angularPOC.factory('RestServices', ['$http', 'ShareDataService', function($http,
 			}).success(function(data, status) {
 							
 				ShareDataService.setMessage(data.description, data.responseStatus);
+//				MessageController.setMessage(data.description, data.responseStatus);
 				if (data.responseStatus == "OK") {
 					console.log("success: " + data.responseStatus);
 					successCallback(data);
