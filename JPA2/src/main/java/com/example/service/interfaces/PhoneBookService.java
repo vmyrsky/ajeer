@@ -11,7 +11,7 @@ import com.example.entity.PhoneNumber;
 public interface PhoneBookService {
 
 	public enum SearchType {
-		START_WITH, END_WITH, MIDDLE
+		START_WITH, END_WITH, LIKE, EQUAL
 	}
 
 	/**
@@ -28,6 +28,13 @@ public interface PhoneBookService {
 	 * @return A list of all persons in the db
 	 */
 	public List<Person> getAllPersons();
+	
+	/**
+	 * Gets all phone numbers.
+	 * 
+	 * @return A list of all phone numbers in the db
+	 */
+	public List<PhoneNumber> getAllPhoneNumbers();
 
 	/**
 	 * Gets persons by last name.
@@ -92,7 +99,17 @@ public interface PhoneBookService {
 	 * @param phoneNumberId The id of the phone number to remove
 	 */
 	public void deletePhoneNumber(int phoneNumberId);
-
+	
+	/**
+	 * Does a search on all phone numbers in the database, finding numbers that have a phone number similar to provided one.
+	 * 
+	 * @param number The String of number (can be text) to look similar numbers for
+	 * @param searchType If the phone number is expected to start or end with the given number/text, or to be a
+	 *        "middle part" of the number
+	 * @return A list of phone numbers having the similar number
+	 */
+	public List<PhoneNumber> getPhoneNumbersLike(String number, SearchType searchType);
+	
 	/**
 	 * Does a search on all persons in the database, finding persons that have a phone number similar to provided one.
 	 * 
@@ -101,5 +118,5 @@ public interface PhoneBookService {
 	 *        "middle part" of the number
 	 * @return A list of persons having the similar number
 	 */
-	public List<Person> searchWithPhoneNumberLike(String number, SearchType searchType);
+	public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType);
 }

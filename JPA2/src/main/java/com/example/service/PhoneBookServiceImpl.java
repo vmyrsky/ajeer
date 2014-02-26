@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,11 +15,17 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 
 import com.example.entity.Person;
+import com.example.entity.Person_;
 import com.example.entity.PhoneNumber;
+import com.example.entity.PhoneNumber_;
 import com.example.service.interfaces.PhoneBookService;
 
 // CDI: Differentiate between different objects of the same type bound in the same scope
@@ -142,7 +149,7 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 	}
 
 	@Override
-	public List<Person> searchWithPhoneNumberLike(String number, SearchType searchType) {
+	public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType) {
 
 		CriteriaBuilder cb = this.em.getCriteriaBuilder();
 		CriteriaQuery<Person> cq = cb.createQuery(Person.class);
@@ -150,17 +157,73 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 		// entities
 		Root<Person> proot = cq.from(Person.class);
 		Root<PhoneNumber> pnroot = cq.from(PhoneNumber.class);
-		// The meta model generation is introduces in pom.xml.
+		// The meta model generation is introduces in pom.xml
 		// You need to compile the project once to have generated files (compile with maven).
 		// (Eclipse) Also have the generated sources folder configured in project build path!
 		// Right click on "project name" > 'properties' > 'Java Build Path'
 		// Select 'Add Folder' and choose 'target' > 'generated-sources'
 
-		// EntityType<PhoneNumber> PhoneNumber_ = pnroot.getModel();
-		// Join<PhoneNumber, Person> owner = cq.join(PhoneNumber_.owner).join(Person_.names);
-		cq.select(proot);
-		TypedQuery<Person> query = em.createQuery(cq);
+		Join<PhoneNumber, Person> owners = pnroot.join(PhoneNumber_.owner);
+		Predicate criteria = this.createPhoneNumberCriteria(cb, pnroot, number, searchType);
+
+		cq.select(owners);
+		cq.distinct(true);
+		cq.where(criteria);
+		TypedQuery<Person> query = this.em.createQuery(cq);
 		List<Person> matchingPersons = query.getResultList();
 		return matchingPersons;
+	}
+
+	@Override
+	public List<PhoneNumber> getAllPhoneNumbers() {
+
+		Query query = this.em.createNamedQuery(PhoneNumber.FIND_ALL);
+		List<PhoneNumber> numbers = query.getResultList();
+		return numbers;
+	}
+
+	@Override
+	public List<PhoneNumber> getPhoneNumbersLike(String number, SearchType searchType) {
+
+		CriteriaBuilder cb = this.em.getCriteriaBuilder();
+		CriteriaQuery<PhoneNumber> cq = cb.createQuery(PhoneNumber.class);
+		Root<PhoneNumber> pnroot = cq.from(PhoneNumber.class);
+		Predicate criteria = this.createPhoneNumberCriteria(cb, pnroot, number, searchType);
+		cq.select(pnroot);
+		cq.where(criteria);
+		TypedQuery<PhoneNumber> query = this.em.createQuery(cq);
+		List<PhoneNumber> matchingNumbers = query.getResultList();
+		return matchingNumbers;
+	}
+
+	/**
+	 * Creates a criteria to limit query results.
+	 * 
+	 * @param cb
+	 * @param pnroot
+	 * @param number
+	 * @param searchType
+	 * @return
+	 */
+	private Predicate createPhoneNumberCriteria(CriteriaBuilder cb, Root<PhoneNumber> pnroot, String number,
+	        SearchType searchType) {
+
+		Path<String> path = pnroot.get(PhoneNumber_.phoneNumber);
+		Predicate criteria = null;
+		switch (searchType) {
+		case START_WITH:
+			criteria = cb.like(path, number + "%");
+			break;
+		case END_WITH:
+			criteria = cb.like(path, "%" + number);
+			break;
+		case EQUAL:
+			criteria = cb.equal(path, number);
+			break;
+		default:
+			criteria = cb.like(path, "%" +number + "%");
+			break;
+		}
+		return criteria;
 	}
 }

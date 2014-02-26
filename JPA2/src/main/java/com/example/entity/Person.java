@@ -227,6 +227,7 @@ public class Person implements Serializable {
 	}
 
 	public void addNumber(PhoneNumber phoneNumber) {
+		phoneNumber.setOwner(this);
 		this.getPhoneNumbers().add(phoneNumber);
 	}
 

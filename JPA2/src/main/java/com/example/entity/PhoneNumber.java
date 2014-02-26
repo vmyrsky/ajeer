@@ -17,7 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,10 +35,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "\"phonenumber\"")
+@NamedQueries({
+        @NamedQuery(name = PhoneNumber.FIND_ALL, query = "SELECT pn FROM PhoneNumber pn"),
+        @NamedQuery(name = PhoneNumber.FIND_BY_NUMBER, query = "SELECT pn FROM PhoneNumber pn where pn.phoneNumber=:number"
+                + Person.PARAM_LASTNAME) })
 public class PhoneNumber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Transient
+	public static final String FIND_ALL = "PhoneNumber.find_all";
+	@Transient
+	public static final String FIND_BY_NUMBER = "PhoneNumber.find_by_number";
+	
 	// JAXB: Enumerations need to be annotated
 	@XmlEnum
 	public static enum Type {
@@ -124,7 +136,7 @@ public class PhoneNumber implements Serializable {
 		this.setPhoneNumber(phoneNumber);
 		this.setDescription(description);
 	}
-	
+
 	@AroundInvoke
 	private Object interceptPhoneNumberType(InvocationContext ctx) {
 		Object[] params = ctx.getParameters();
@@ -148,6 +160,7 @@ public class PhoneNumber implements Serializable {
 	public Type getNumberType() {
 		return numberType;
 	}
+
 	public void setNumberType(String numberType) {
 		Type type = Type.valueOf(numberType);
 		this.setNumberType(type);

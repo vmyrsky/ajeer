@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ import org.junit.runner.RunWith;
 
 import com.example.entity.Person;
 import com.example.entity.PhoneNumber;
+import com.example.service.interfaces.PhoneBookService.SearchType;
 
 /**
  * A simple test to check the JPA can interact with the database. For this you need a derbyDB be running in your system.
@@ -85,12 +87,17 @@ public class PhoneBookServiceImplTest extends TestCase {
 
 	@After
 	public void cleanup() {
-		// Implement cleanup if necessary
-	}
-
-	@Test
-	public void dummy() {
-		assertTrue(true);
+		try {
+			this.utx.begin();
+			Iterator<Person> iter = this.service.getAllPersons().iterator();
+			while (iter.hasNext()) {
+				this.service.deletePerson(iter.next());
+			}
+			this.utx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 	@Test
@@ -113,7 +120,6 @@ public class PhoneBookServiceImplTest extends TestCase {
 		phoneNumber.setNumberType(PhoneNumber.Type.CELL);
 		phoneNumber.setPhoneNumber("+35840-7897890");
 		phoneNumber.setDescription("Test description 1");
-		phoneNumber.setOwner(person);
 		person.addNumber(phoneNumber);
 		try {
 			// You need to begin and end the transactions in tests
@@ -129,7 +135,6 @@ public class PhoneBookServiceImplTest extends TestCase {
 			phoneNumber.setNumberType(PhoneNumber.Type.WORK);
 			phoneNumber.setPhoneNumber("+3589-4564564");
 			phoneNumber.setDescription("Test description 2");
-			phoneNumber.setOwner(person);
 			person.addNumber(phoneNumber);
 			this.utx.begin();
 			this.service.updatePerson(person);
@@ -159,5 +164,80 @@ public class PhoneBookServiceImplTest extends TestCase {
 		assertEquals("+3589-4564564", persistedPerson.getPhoneNumbers().get(1).getPhoneNumber());
 		assertEquals(PhoneNumber.Type.WORK, persistedPerson.getPhoneNumbers().get(1).getNumberType());
 		assertEquals("Test description 2", persistedPerson.getPhoneNumbers().get(1).getDescription());
+	}
+
+	@Test
+	public void testGettingPersonsListByNumber() {
+		Person person1 = new Person(true);
+		person1.setLastName("Tester1");
+		PhoneNumber phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("111-11111111");
+		person1.addNumber(phoneNumber);
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("222-11111111");
+		person1.addNumber(phoneNumber);
+
+		Person person2 = new Person(true);
+		person2.setLastName("Tester2");
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("111-2222222");
+		person2.addNumber(phoneNumber);
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("333-2222222");
+		person2.addNumber(phoneNumber);
+
+		Person person3 = new Person(true);
+		person3.setLastName("Tester3");
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("111-33333333");
+		person3.addNumber(phoneNumber);
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("444-33333333");
+		person3.addNumber(phoneNumber);
+		person3.addNumber(phoneNumber);
+		phoneNumber = new PhoneNumber(true);
+		phoneNumber.setPhoneNumber("555-11111111");
+		person3.addNumber(phoneNumber);
+
+		try {
+			this.utx.begin();
+			this.service.addPerson(person1);
+			this.service.addPerson(person2);
+			this.service.addPerson(person3);
+			this.utx.commit();
+			List<PhoneNumber> numbers = this.service.getAllPhoneNumbers();
+			// Each person was assigned a 'default number'
+			assertEquals(10, numbers.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		String equal = "555-11111111";
+		List<PhoneNumber> one = this.service.getPhoneNumbersLike(equal, SearchType.EQUAL);
+		assertEquals(1, one.size());
+
+		String like = "3333";
+		List<PhoneNumber> numbers = this.service.getPhoneNumbersLike(like, SearchType.LIKE);
+		assertEquals(2, numbers.size());
+		
+		String startsWith = "111";
+		numbers = this.service.getPhoneNumbersLike(startsWith, SearchType.START_WITH);
+		assertEquals(3, numbers.size());
+		
+		String endsWith = "222";
+		numbers = this.service.getPhoneNumbersLike(endsWith, SearchType.END_WITH);
+		assertEquals(2, numbers.size());
+		
+		List<Person> persons = this.service.getPersonsWithPhoneNumberLike(like, SearchType.LIKE);
+		assertEquals(1, persons.size());
+
+		startsWith = "111";
+		persons = this.service.getPersonsWithPhoneNumberLike(startsWith, SearchType.START_WITH);
+		assertEquals(3, persons.size());
+
+		endsWith = "111";
+		persons = this.service.getPersonsWithPhoneNumberLike(endsWith, SearchType.END_WITH);
+		assertEquals(2, persons.size());
 	}
 }
