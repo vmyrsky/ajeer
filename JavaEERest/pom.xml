@@ -4,7 +4,7 @@
   <groupId>example</groupId>
   <artifactId>jeer</artifactId>
   <packaging>war</packaging>
-  <version>0.10.0</version>
+  <version>0.11.0</version>
   <name>Java EE REST</name>
   <dependencies>
     <dependency>
