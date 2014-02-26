@@ -115,6 +115,7 @@ public class PhonebookRest {
 			person.addNumber(new PhoneNumber(0, person, PhoneNumber.Type.HOME, "555-5555555", "Aunt May"));
 			response.addPayloadItem(person);
 		}
+		response.setDescription("Phonebook persons loaded");
 		return response;
 	}
 

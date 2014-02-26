@@ -139,7 +139,7 @@ public class PersonRest {
 				this.pbService.addPerson(newPerson);
 			} else {
 				response.setResponseStatus(Status.WARNING);
-				response.setDescription("The data given is not valid to be persisted");
+				response.setDescription("The data given for new person is not valid to be persisted");
 				response.setPayload(errors);
 			}
 		} catch (NumberFormatException nfe) {
