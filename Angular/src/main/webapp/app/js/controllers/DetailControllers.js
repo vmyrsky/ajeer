@@ -62,7 +62,7 @@ angularPOC
 								var failCallback = function() {
 									var msg = "Failed to get person details";
 									console.log(msg);
-									ShareDataService.setMessage(msg, "ERROR");
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getSinglePerson(
@@ -81,7 +81,7 @@ angularPOC
 								var failCallback = function() {
 									var msg = "Failed to get person phone numbers";
 									console.log(msg);
-									ShareDataService.setMessage(msg, "ERROR");
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getPersonPhoneNumbers(
@@ -185,7 +185,7 @@ angularPOC
 									// show message
 									var msg = "Failed to get phone number types";
 									console.log(msg);
-									ShareDataService.setMessage(msg, "ERROR");
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 								RestServices.getPhonenumberTypes(
 										getTypesSuccess, getTypesFail);
