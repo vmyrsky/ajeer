@@ -11,7 +11,7 @@ import com.example.entity.PhoneNumber;
 public interface PhoneBookService {
 
 	public enum SearchType {
-		START_WITH, END_WITH, LIKE, EQUAL
+		STARTS, ENDS, LIKE, EQUALS
 	}
 
 	/**

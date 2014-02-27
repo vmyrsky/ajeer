@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,11 +18,9 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 
 import com.example.entity.Person;
-import com.example.entity.Person_;
 import com.example.entity.PhoneNumber;
 import com.example.entity.PhoneNumber_;
 import com.example.service.interfaces.PhoneBookService;
@@ -66,7 +63,9 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Person> getAllPersons() {
 
-		Query query = this.em.createNamedQuery(Person.FIND_ALL);
+		Query query = this.em.createNamedQuery(Person.FIND_ALL, Person.class);
+		// Note: Even that we know the result type will be ok, this will generate a warning
+		// To avoid these warnings you could use the Criteria API (example in getPersonsWithPhoneNumberLike())
 		List<Person> persons = query.getResultList();
 		return persons;
 	}
@@ -76,7 +75,8 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Person> getPersonsByLastName(String lastname) {
 
-		Query query = this.em.createNamedQuery(Person.FIND_BY_LASTNAME);
+		// This uses JPQL with parameters
+		Query query = this.em.createNamedQuery(Person.FIND_BY_LASTNAME, Person.class);
 		query.setParameter(Person.PARAM_LASTNAME, lastname);
 		List<Person> persons = query.getResultList();
 		return persons;
@@ -151,25 +151,45 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 	@Override
 	public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType) {
 
-		CriteriaBuilder cb = this.em.getCriteriaBuilder();
-		CriteriaQuery<Person> cq = cb.createQuery(Person.class);
-		// Criteria queries may have more than one query root. This usually occurs when the query navigates from several
-		// entities
-		Root<Person> proot = cq.from(Person.class);
-		Root<PhoneNumber> pnroot = cq.from(PhoneNumber.class);
 		// The meta model generation is introduces in pom.xml
 		// You need to compile the project once to have generated files (compile with maven).
 		// (Eclipse) Also have the generated sources folder configured in project build path!
 		// Right click on "project name" > 'properties' > 'Java Build Path'
 		// Select 'Add Folder' and choose 'target' > 'generated-sources'
 
-		Join<PhoneNumber, Person> owners = pnroot.join(PhoneNumber_.owner);
-		Predicate criteria = this.createPhoneNumberCriteria(cb, pnroot, number, searchType);
+		// sql: <select> <from> <where>
 
+		// Query with Criteria API
+		// Create the criteria builder
+		CriteriaBuilder cb = this.em.getCriteriaBuilder();
+		// Define the type of the objects the query will return in the end
+		CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+		// Criteria queries may have more than one query root. This usually occurs when the query navigates from several
+		// entities
+		// The FROM part
+		Root<Person> proot = cq.from(Person.class);
+		Root<PhoneNumber> pnroot = cq.from(PhoneNumber.class);
+		// Define the join by telling where the join will happen
+		// The Persons will be collected from the list that the phone numbers have as 'owner's
+		// The correct oder to join is to have persons to be joined with phone number since the criteria is targeted on
+		// phone number
+		Join<PhoneNumber, Person> owners = pnroot.join(PhoneNumber_.owner);
+		// The actual CRITERIA for the WHERE
+		Predicate criteria = this.createPhoneNumberCriteria(cb, pnroot, number, searchType);
+		// The SELECT part
+		// since we do the actual query by limiting the phone numbers to get the persons from, we use the object of the
+		// 'Join' type
 		cq.select(owners);
+		// Since it is possible that several phone numbers have the same owner and we are only interested to have one of
+		// each, we define the results to be distinct => select DISTINCT Person p from ...
 		cq.distinct(true);
+		// The WHERE part (consists of CRITERIA)
+		// There may be multiple criteria => use and, or, ...
+		// cq.where(cb.and(criteria1, criteria2));
 		cq.where(criteria);
+		// Finally create the typed query from the criteria query object
 		TypedQuery<Person> query = this.em.createQuery(cq);
+		// Use the typed query to get the results (remember, the type of outcome was defined in the start already)
 		List<Person> matchingPersons = query.getResultList();
 		return matchingPersons;
 	}
@@ -177,7 +197,7 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 	@Override
 	public List<PhoneNumber> getAllPhoneNumbers() {
 
-		Query query = this.em.createNamedQuery(PhoneNumber.FIND_ALL);
+		Query query = this.em.createNamedQuery(PhoneNumber.FIND_ALL, PhoneNumber.class);
 		List<PhoneNumber> numbers = query.getResultList();
 		return numbers;
 	}
@@ -211,17 +231,17 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 		Path<String> path = pnroot.get(PhoneNumber_.phoneNumber);
 		Predicate criteria = null;
 		switch (searchType) {
-		case START_WITH:
+		case STARTS:
 			criteria = cb.like(path, number + "%");
 			break;
-		case END_WITH:
+		case ENDS:
 			criteria = cb.like(path, "%" + number);
 			break;
-		case EQUAL:
+		case EQUALS:
 			criteria = cb.equal(path, number);
 			break;
 		default:
-			criteria = cb.like(path, "%" +number + "%");
+			criteria = cb.like(path, "%" + number + "%");
 			break;
 		}
 		return criteria;

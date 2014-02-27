@@ -82,7 +82,9 @@ public class PhoneBookServiceImplTest extends TestCase {
 
 	@BeforeClass
 	public static void init() {
-		System.out.println("Did you remember to start DB?");
+		System.out.println("Did you remember to start DB or shut down the container (e.g. GlassFish)?");
+		// Note: Noticed that if you use EJBContainer to create tests, arquillian will fail as it will gulp resources
+		// that also arquillian needs (and I failed to figure out how to free them again)
 	}
 
 	@After
@@ -212,32 +214,32 @@ public class PhoneBookServiceImplTest extends TestCase {
 			e.printStackTrace();
 			fail();
 		}
-		
+
 		String equal = "555-11111111";
-		List<PhoneNumber> one = this.service.getPhoneNumbersLike(equal, SearchType.EQUAL);
+		List<PhoneNumber> one = this.service.getPhoneNumbersLike(equal, SearchType.EQUALS);
 		assertEquals(1, one.size());
 
 		String like = "3333";
 		List<PhoneNumber> numbers = this.service.getPhoneNumbersLike(like, SearchType.LIKE);
 		assertEquals(2, numbers.size());
-		
+
 		String startsWith = "111";
-		numbers = this.service.getPhoneNumbersLike(startsWith, SearchType.START_WITH);
+		numbers = this.service.getPhoneNumbersLike(startsWith, SearchType.STARTS);
 		assertEquals(3, numbers.size());
-		
+
 		String endsWith = "222";
-		numbers = this.service.getPhoneNumbersLike(endsWith, SearchType.END_WITH);
+		numbers = this.service.getPhoneNumbersLike(endsWith, SearchType.ENDS);
 		assertEquals(2, numbers.size());
-		
+
 		List<Person> persons = this.service.getPersonsWithPhoneNumberLike(like, SearchType.LIKE);
 		assertEquals(1, persons.size());
 
 		startsWith = "111";
-		persons = this.service.getPersonsWithPhoneNumberLike(startsWith, SearchType.START_WITH);
+		persons = this.service.getPersonsWithPhoneNumberLike(startsWith, SearchType.STARTS);
 		assertEquals(3, persons.size());
 
 		endsWith = "111";
-		persons = this.service.getPersonsWithPhoneNumberLike(endsWith, SearchType.END_WITH);
+		persons = this.service.getPersonsWithPhoneNumberLike(endsWith, SearchType.ENDS);
 		assertEquals(2, persons.size());
 	}
 }
