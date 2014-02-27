@@ -231,15 +231,15 @@ public class PhoneBookServiceImplTest extends TestCase {
 		numbers = this.service.getPhoneNumbersLike(endsWith, SearchType.ENDS);
 		assertEquals(2, numbers.size());
 
-		List<Person> persons = this.service.getPersonsWithPhoneNumberLike(like, SearchType.LIKE);
+		List<Person> persons = this.service.getPersonsWithPhoneNumbersLike(like, "like");
 		assertEquals(1, persons.size());
 
 		startsWith = "111";
-		persons = this.service.getPersonsWithPhoneNumberLike(startsWith, SearchType.STARTS);
+		persons = this.service.getPersonsWithPhoneNumbersLike(startsWith, "starts");
 		assertEquals(3, persons.size());
 
 		endsWith = "111";
-		persons = this.service.getPersonsWithPhoneNumberLike(endsWith, SearchType.ENDS);
+		persons = this.service.getPersonsWithPhoneNumbersLike(endsWith, "ends");
 		assertEquals(2, persons.size());
 	}
 }

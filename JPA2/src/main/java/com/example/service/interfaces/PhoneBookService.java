@@ -111,6 +111,17 @@ public interface PhoneBookService {
 	public List<PhoneNumber> getPhoneNumbersLike(String number, SearchType searchType);
 	
 	/**
+	 * A convenience method for getPersonsWithPhoneNumberLike(String number, SearchType searchType).
+	 * 
+	 * @param number The String of number (can be text) to look similar numbers for
+	 * @param searchType If the phone number is expected to start or end with the given number/text, or to be a
+	 *        "middle part" of the number
+	 * @return A list of persons having the similar number
+	 * @see #getPhoneNumbersLike(String, SearchType)
+	 */
+	public List<Person> getPersonsWithPhoneNumbersLike(String number, String searchType);
+	
+	/**
 	 * Does a search on all persons in the database, finding persons that have a phone number similar to provided one.
 	 * 
 	 * @param number The String of number (can be text) to look similar numbers for
@@ -118,5 +129,5 @@ public interface PhoneBookService {
 	 *        "middle part" of the number
 	 * @return A list of persons having the similar number
 	 */
-	public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType);
+	public List<Person> getPersonsWithPhoneNumbersLike(String number, SearchType searchType);
 }

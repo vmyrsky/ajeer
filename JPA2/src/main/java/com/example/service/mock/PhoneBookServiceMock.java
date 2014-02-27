@@ -74,12 +74,6 @@ public class PhoneBookServiceMock implements PhoneBookService {
     }
 
 	@Override
-    public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public List<PhoneNumber> getAllPhoneNumbers() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -87,6 +81,18 @@ public class PhoneBookServiceMock implements PhoneBookService {
 
 	@Override
     public List<PhoneNumber> getPhoneNumbersLike(String number, SearchType searchType) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public List<Person> getPersonsWithPhoneNumbersLike(String number, String searchType) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public List<Person> getPersonsWithPhoneNumbersLike(String number, SearchType searchType) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

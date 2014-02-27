@@ -147,9 +147,15 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 		PhoneNumber pn = this.em.find(PhoneNumber.class, phoneNumberId);
 		this.deletePhoneNumber(pn);
 	}
+	
+	@Override
+	public List<Person> getPersonsWithPhoneNumbersLike(String number, String searchType) {
+
+		return this.getPersonsWithPhoneNumbersLike(number, SearchType.valueOf(searchType.toUpperCase()));
+	}
 
 	@Override
-	public List<Person> getPersonsWithPhoneNumberLike(String number, SearchType searchType) {
+	public List<Person> getPersonsWithPhoneNumbersLike(String number, SearchType searchType) {
 
 		// The meta model generation is introduces in pom.xml
 		// You need to compile the project once to have generated files (compile with maven).
