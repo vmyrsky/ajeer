@@ -103,10 +103,7 @@ angularPOC
 								console.log("Update all persons: "
 										+ JSON.stringify($scope.persons));
 								var saveSuccess = function(data) {
-									// Reload the data, show message
-									ShareDataService.setMessage(
-											data.description,
-											data.responseStatus);
+									// Reload the data
 									$scope.getAllPersons();
 								};
 								var saveFail = function() {
@@ -178,8 +175,6 @@ angularPOC
 									} else {
 										var msg = "No persons found with the specified criteria";
 										console.log(msg);
-										ShareDataService.addMessage(msg,
-												"WARNING");
 									}
 								};
 
@@ -218,9 +213,6 @@ angularPOC
 											$scope.personsForm.$setPristine();
 										}
 									} else {
-										ShareDataService.addMessage(
-												"Got empty persons list",
-												"WARNING");
 										$scope.persons = [];
 									}
 								};
@@ -245,10 +237,7 @@ angularPOC
 							$scope.removePerson = function(id) {
 								console.log("Remove person by id: " + id);
 								var removeSuccess = function(data) {
-									// Reload the data, show message
-									ShareDataService.setMessage(
-											data.description,
-											data.responseStatus);
+									// Reload the data
 									$scope.getAllPersons();
 								};
 								var removeFail = function() {
