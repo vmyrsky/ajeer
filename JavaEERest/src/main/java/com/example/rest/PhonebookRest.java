@@ -14,12 +14,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.annotation.XmlTransient;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.example.entity.Person;
 import com.example.entity.PhoneNumber;
 import com.example.service.interfaces.PhoneBookService;
-import com.example.model.ModelBean;
+import com.example.service.interfaces.PhoneBookService.SearchType;
+import com.example.model.KeyValuePair;
 import com.example.model.Response;
 import com.example.model.Response.Status;
 import com.example.util.IdConverter;
@@ -61,6 +63,7 @@ public class PhonebookRest {
 
 	/**
 	 * Constructor for injection.
+	 * 
 	 * @param pbService An instance of {@link PhoneBookService} (interface in JPA2 project)
 	 */
 	public PhonebookRest(PhoneBookService pbService) {
@@ -85,37 +88,27 @@ public class PhonebookRest {
 	// @Produces({"application/json"}) == @Produces(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	// Jersey: @QueryParam => define the url-param to be mapped onto method param
-	public Response getAllPersons(@QueryParam(value = "param") final String value) {
-		System.out.println("getAllPersons called with param: " + value);
+	public Response getAllPersons(@QueryParam(value = "criteriaString") final String criteriaString,
+	        @QueryParam(value = "criteriaType") final String criteriaType) {
+		
 		Response response = new Response();
-
-		List<Person> persons = this.pbService.getAllPersons();
-
+		List<Person> persons = null;
+		if (!StringUtils.isEmpty(criteriaString) && !StringUtils.isEmpty(criteriaType)) {
+			System.out.println("getAllPersons called with criteria: " + criteriaString + ", " + criteriaType);
+			persons = this.pbService.getPersonsWithPhoneNumbersLike(criteriaString, criteriaType);
+		} else {
+			System.out.println("getAllPersons called");
+			persons = this.pbService.getAllPersons();
+		}
 		if (persons.size() > 0) {
 			response.setPayload(persons);
+			response.setDescription("Phonebook persons loaded");
+			response.setResponseStatus(Status.OK);
 		} else {
-			// Will create two dummy entities for example when you don't have a pre populated DB
-			Person person = new Person();
-			List<String> names = new ArrayList<>();
-			names.add("Harry");
-			names.add("'The mage'");
-			person.setNames(names);
-			person.setLastName("Potter");
-			person.addNumber(new PhoneNumber(0, person, PhoneNumber.Type.CELL, "555-9999999",
-			        "Harry's emergency number"));
-			person.addNumber(new PhoneNumber(1, person, PhoneNumber.Type.WORK, "555-8888888", "Harry's secretary"));
-			response.addPayloadItem(person);
-			person = new Person();
-			person.addName("Peter");
-			names = new ArrayList<>();
-			names.add("Peter");
-			names.add("'Spidey'");
-			person.setNames(names);
-			person.setLastName("Parker");
-			person.addNumber(new PhoneNumber(0, person, PhoneNumber.Type.HOME, "555-5555555", "Aunt May"));
-			response.addPayloadItem(person);
+			response.setDescription("No persons found with the given criteria");
+			response.setResponseStatus(Status.WARNING);
 		}
-		response.setDescription("Phonebook persons loaded");
+		
 		return response;
 	}
 
@@ -168,14 +161,21 @@ public class PhonebookRest {
 	/**
 	 * This will respond to GET request with dataType : 'json' & "Content-Type" : "text/plain".
 	 * 
-	 * @return A json string presentation of the {@link ModelBean}
+	 * @return A json string presentation of the {@link Response} having 'criteria types' as a payload
 	 */
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ModelBean sayJSONHello() {
-		System.out.println("sayJSONHello called");
-		return new ModelBean(0, "JSON", "JSON response for: dataType: 'json', contentType : 'text/plain'");
+	public Response getCriteriaTypes() {
+		System.out.println("getCriteriaTypes called");
+		Response response = new Response();
+		response.setDescription("A list of the enumerated criteria types");
+		response.setResponseStatus(Status.OK);
+		for (SearchType type : PhoneBookService.SearchType.values()) {
+			KeyValuePair kvp = new KeyValuePair(type.toString(), type.toString().toLowerCase());
+			response.addPayloadItem(kvp);
+		}
+		return response;
 	}
 
 	/**
@@ -187,9 +187,9 @@ public class PhonebookRest {
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_XML)
-	public ModelBean sayXMLHello() {
+	public Response sayXMLHello() {
 		System.out.println("sayXMLHello called");
-		return new ModelBean(2, "XML", "XML response");
+		return new Response(Status.OK, "XML");
 	}
 
 	/**
