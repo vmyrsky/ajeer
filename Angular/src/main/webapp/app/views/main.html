@@ -1,9 +1,19 @@
-<!-- In order to use formController, we specify a normal form -->
+<!-- In order to use formController, we specify a normal form where the formController attaches it self to by it's name -->
 <form name="personsForm">
   <!-- The controller is already/also defined in the app.js -->
+  <div id="number_search_label">
+    <label for="number_search">Search persons by phone number (done by JPA)</label>
+  </div>
+  <div id="number_search">
+    <input id="criteriaString" type="text" class="criteria_string" ng-model="criteriaString" />
+    <select id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.key for type in criteriaTypes" />
+  </div>
+  <div id="search">
+    <button id="find_by_numbers" ng-click="getLimitedPersons()">Find by phone numbers</button>
+  </div>
   <!-- The json structure of a person is defined in entity of jpa2...Person.java -->
   <div id="filter_label">
-    <label for="filter">Filter persons</label>
+    <label for="filter">Filter persons (done by Angular)</label>
   </div>
   <div id="filter">
     <input type="text" class="person_filter" ng-model="personFilter" />

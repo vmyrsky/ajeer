@@ -20,6 +20,9 @@ angularPOC
 						'ShareDataService',
 						function($scope, $http, $location, RestServices,
 								ShareDataService) {
+							$scope.criteriaString = "";
+							$scope.criteriaTypes = [];
+							$scope.criteriaType = $scope.criteriaTypes[0];
 							$scope.style = "default";
 							$scope.hello = "Not called anything yet!";
 							$scope.persons = [ {
@@ -74,13 +77,14 @@ angularPOC
 									}
 								};
 
-								var updateHelloFail = function() {
-									console.log("updateHelloFail");
-									$scope.hello = "Error: No Hi. :(";
+								var helloFail = function() {
+									var msg = "Failed to update persons";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 
 								RestServices.getHello(updateHelloSuccess,
-										updateHelloFail);
+										helloFail);
 							};
 
 							// Cancel all modification made to persons data
@@ -99,21 +103,16 @@ angularPOC
 								console.log("Update all persons: "
 										+ JSON.stringify($scope.persons));
 								var saveSuccess = function(data) {
-									if (data.responseStatus == 'OK') {
-										// Reload the data, show message
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-										$scope.getAllPersons();
-									} else {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-										$scope.getAllPersons();
-									}
+									// Reload the data, show message
+									ShareDataService.setMessage(
+											data.description,
+											data.responseStatus);
+									$scope.getAllPersons();
 								};
 								var saveFail = function() {
-									// show message
-									$scope.message = 'Remove failed';
-									$scope.messageStyle = 'ERROR';
+									var msg = "Failed to save new person";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 								// We could select only the modified data to be
 								// sent, but the JPA will have only the actual
@@ -138,7 +137,9 @@ angularPOC
 								};
 
 								var emptyStructureFail = function() {
-									console.log("WTF?");
+									var msg = "Failed to get empty person structure";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 
 								RestServices.getEmptyPerson(
@@ -155,11 +156,49 @@ angularPOC
 									$scope.getAllPersons();
 								};
 								var addPersonsFail = function() {
-									console.log("Failed to add new person");
+									var msg = "Failed to add new person";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 
 								RestServices.addPerson(addPersonsSuccess,
 										addPersonsFail, $scope.newPerson);
+							};
+
+							// Get a list of persons with limiting phone number
+							// criteria
+							$scope.getLimitedPersons = function() {
+								console.log("get limited persons");
+								var getPersonsSuccess = function(data) {
+
+									if (data != undefined && data != '') {
+										$scope.persons = data.payload.person;
+										$scope.originalPersonsModel = angular
+												.copy($scope.persons);
+									} else {
+										var msg = "No persons found with the specified criteria";
+										console.log(msg);
+										ShareDataService.addMessage(msg,
+												"WARNING");
+									}
+								};
+
+								var getPersonsFail = function() {
+									var msg = "Failed to get persons list";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
+									$scope.persons = [];
+								};
+
+								// Load data from db conditionally
+								if (!$scope.useDemoData) {
+									RestServices.getAllPersons(
+											getPersonsSuccess, getPersonsFail,
+											$scope.criteriaString,
+											$scope.criteriaType.key);
+								} else {
+									console.log("Using demo data");
+								}
 							};
 
 							// Get a list of all persons stored in the phonebook
@@ -179,35 +218,18 @@ angularPOC
 											$scope.personsForm.$setPristine();
 										}
 									} else {
-										$scope.persons = {
-											id : "-1",
-											firstName : "Response, but no persons",
-											lastName : "found from database",
-											phoneNumbers : [ {
-												id : "-1",
-												numberType : "N/A",
-												number : "",
-												description : "N/A",
-												timestamp : "0"
-											} ]
-										};
+										ShareDataService.addMessage(
+												"Got empty persons list",
+												"WARNING");
+										$scope.persons = [];
 									}
 								};
 
 								var getPersonsFail = function() {
-									console.log("Fail");
-									$scope.persons = {
-										id : "-1",
-										firstName : "Fail: No persons got",
-										lastName : "from REST",
-										phoneNumbers : [ {
-											id : "-1",
-											numberType : "N/A",
-											number : "",
-											description : "N/A",
-											timestamp : "0"
-										} ]
-									};
+									var msg = "Failed to get persons list";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
+									$scope.persons = [];
 								};
 
 								// Load data from db conditionally
@@ -223,21 +245,16 @@ angularPOC
 							$scope.removePerson = function(id) {
 								console.log("Remove person by id: " + id);
 								var removeSuccess = function(data) {
-									if (data.responseStatus == 'OK') {
-										// Reload the data, show message
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-										$scope.getAllPersons();
-									} else {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-										$scope.getAllPersons();
-									}
+									// Reload the data, show message
+									ShareDataService.setMessage(
+											data.description,
+											data.responseStatus);
+									$scope.getAllPersons();
 								};
 								var removeFail = function() {
-									// show message
-									$scope.message = 'Remove failed';
-									$scope.messageStyle = 'ERROR';
+									var msg = "Failed to remove person";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 								RestServices.removePerson(removeSuccess,
 										removeFail, id);
@@ -254,8 +271,25 @@ angularPOC
 								$location.path(path);
 							};
 
+							$scope.getCriteriaTypes = function() {
+								console.log("Get criteria types");
+								var getTypesSuccess = function(data) {
+									$scope.criteriaTypes = data.payload.keyValuePair;
+									// Set the 1st value selected by default
+									$scope.criteriaType = $scope.criteriaTypes[0];
+								};
+								var getTypesFail = function() {
+									var msg = "Failed to get criteria types";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
+								};
+								RestServices.getCriteriaTypes(
+										getTypesSuccess, getTypesFail);
+							}
+
 							// Call these when the page is loaded
 							$scope.getAllPersons();
+							$scope.getCriteriaTypes();
 							// This is just an example how the person
 							// responsible for UI development can see the
 							// structure expected with the person entity

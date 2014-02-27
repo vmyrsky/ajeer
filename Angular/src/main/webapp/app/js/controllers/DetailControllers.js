@@ -60,7 +60,9 @@ angularPOC
 									$scope.person.phonenumbers = data.payload.phonenumber;
 								};
 								var failCallback = function() {
-									console.log("Could not get person details");
+									var msg = "Failed to get person details";
+									console.log(msg);
+									ShareMessage.setMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getSinglePerson(
@@ -77,8 +79,9 @@ angularPOC
 									$scope.person.phonenumbers = data.payload.phonenumber;
 								};
 								var failCallback = function() {
-									console
-											.log("Could not get person phone numbers");
+									var msg = "Failed to get person phone numbers";
+									console.log(msg);
+									ShareMessage.setMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getPersonPhoneNumbers(
@@ -91,8 +94,7 @@ angularPOC
 							$scope.getDetails = function(id) {
 								// Use existing person data if available
 								if (ShareDataService.getPerson() != '') {
-									var setId = ShareDataService
-											.getPerson().id;
+									var setId = ShareDataService.getPerson().id;
 									if (setId == $scope.personId) {
 										// This should have the person data set
 										// when
@@ -148,8 +150,9 @@ angularPOC
 									$scope.newNumber.numberType = $scope.numberTypes[0];
 								};
 								var addNumberFail = function() {
-									console
-											.log("Failed to add new phone number");
+									var msg = "Failed to add phone number";
+									console.log(msg);
+									ShareMessage.setMessage(msg, "ERROR");
 								};
 
 								RestServices.addPhoneNumber(addNumberSuccess,
@@ -160,19 +163,15 @@ angularPOC
 							$scope.removeNumber = function(id) {
 								console.log("Remove phone number by id: " + id);
 								var removeSuccess = function(data) {
-									if (data.responseStatus == 'OK') {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-									} else {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-									}
+									ShareMessage.setMessage(data.description,
+											data.responseStatus);
 									$scope.getDetails($scope.personId);
 								};
 								var removeFail = function() {
 									// show message
-									$scope.message = 'Remove failed';
-									$scope.messageStyle = 'ERROR';
+									var msg = "Failed to remove phone number";
+									console.log(msg);
+									ShareMessage.setMessage(msg, "ERROR");
 								};
 								RestServices.removePhoneNumber(removeSuccess,
 										removeFail, id);
@@ -181,25 +180,23 @@ angularPOC
 							$scope.getPhonenumberTypes = function() {
 								console.log("Get Number types");
 								var getTypesSuccess = function(data) {
-									if (data.responseStatus == 'OK') {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-										$scope.numberTypes = data.payload.keyValuePair;
-										// Set the 1st value selected by default
-										$scope.newNumber.numberType = $scope.numberTypes[0];
-									} else {
-										$scope.message = data.description;
-										$scope.messageStyle = data.responseStatus;
-									}
+
+									$scope.numberTypes = data.payload.keyValuePair;
+									// Set the 1st value selected by default
+									$scope.newNumber.numberType = $scope.numberTypes[0];
+									ShareDataService.setMessage(
+											data.description,
+											data.responseStatus);
 								};
 								var getTypesFail = function() {
 									// show message
-									$scope.message = 'Get phone number types failed';
-									$scope.messageStyle = 'ERROR';
+									var msg = "Failed to get phone number types";
+									console.log(msg);
+									ShareMessage.setMessage(msg, "ERROR");
 								};
 								RestServices.getPhonenumberTypes(
 										getTypesSuccess, getTypesFail);
-							}
+							};
 
 							$scope.getDetails($scope.personId);
 							$scope.getPhonenumberTypes();
