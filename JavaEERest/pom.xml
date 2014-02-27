@@ -10,7 +10,7 @@
     <dependency>
       <groupId>example</groupId>
       <artifactId>jpa2</artifactId>
-      <version>0.10.0</version>
+      <version>0.11.0</version>
       <scope>compile</scope>
     </dependency>
 
