@@ -62,7 +62,7 @@ angularPOC
 								var failCallback = function() {
 									var msg = "Failed to get person details";
 									console.log(msg);
-									ShareMessage.setMessage(msg, "ERROR");
+									ShareDataService.setMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getSinglePerson(
@@ -81,7 +81,7 @@ angularPOC
 								var failCallback = function() {
 									var msg = "Failed to get person phone numbers";
 									console.log(msg);
-									ShareMessage.setMessage(msg, "ERROR");
+									ShareDataService.setMessage(msg, "ERROR");
 								};
 								if (!$scope.useDemoData) {
 									RestServices.getPersonPhoneNumbers(
@@ -152,7 +152,6 @@ angularPOC
 								var addNumberFail = function() {
 									var msg = "Failed to add phone number";
 									console.log(msg);
-									ShareMessage.setMessage(msg, "ERROR");
 								};
 
 								RestServices.addPhoneNumber(addNumberSuccess,
@@ -163,15 +162,12 @@ angularPOC
 							$scope.removeNumber = function(id) {
 								console.log("Remove phone number by id: " + id);
 								var removeSuccess = function(data) {
-									ShareMessage.setMessage(data.description,
-											data.responseStatus);
 									$scope.getDetails($scope.personId);
 								};
 								var removeFail = function() {
 									// show message
 									var msg = "Failed to remove phone number";
 									console.log(msg);
-									ShareMessage.setMessage(msg, "ERROR");
 								};
 								RestServices.removePhoneNumber(removeSuccess,
 										removeFail, id);
@@ -184,15 +180,12 @@ angularPOC
 									$scope.numberTypes = data.payload.keyValuePair;
 									// Set the 1st value selected by default
 									$scope.newNumber.numberType = $scope.numberTypes[0];
-									ShareDataService.setMessage(
-											data.description,
-											data.responseStatus);
 								};
 								var getTypesFail = function() {
 									// show message
 									var msg = "Failed to get phone number types";
 									console.log(msg);
-									ShareMessage.setMessage(msg, "ERROR");
+									ShareDataService.setMessage(msg, "ERROR");
 								};
 								RestServices.getPhonenumberTypes(
 										getTypesSuccess, getTypesFail);
