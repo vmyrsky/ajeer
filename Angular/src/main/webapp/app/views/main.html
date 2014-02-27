@@ -6,7 +6,7 @@
   </div>
   <div id="number_search">
     <input id="criteriaString" type="text" class="criteria_string" ng-model="criteriaString" />
-    <select id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.key for type in criteriaTypes" />
+    <select id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.value for type in criteriaTypes" />
   </div>
   <div id="search">
     <button id="find_by_numbers" ng-click="getLimitedPersons()">Find by phone numbers</button>
