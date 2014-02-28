@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -85,8 +86,6 @@ public class Person implements Serializable {
 	@XmlList
 	// Bean validation stating the min and max constraints for the list size
 	@Size(min = 1, max = 6)
-	// BeanValidation instruction to validate all the list items
-	// @Valid
 	// Validating the String items in a list would be Java 8 specific feature (we are leaving it out currently)
 	// private List<@Size(min=2, max=32) String> names;
 	// JPA: Tells this is a simple list => A table will be generated for this, using the primary key for union
@@ -116,7 +115,7 @@ public class Person implements Serializable {
 	// JAXB: If you want to include the phone numbers with the 1st time providing the json, uncomment the two
 	// annotations above and comment the annotation below. Providing all the data will generate unnecessary overhead if
 	// there are lots of persons to load, all the phone number content will be loaded as well when generating the json
-	@XmlTransient
+    @XmlTransient
 	// JPA: One person may have several phone numbers
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner", orphanRemoval = true)
 	private List<PhoneNumber> phoneNumbers = null;
@@ -223,6 +222,9 @@ public class Person implements Serializable {
 	}
 
 	public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
+		for (PhoneNumber number : phoneNumbers) {
+			number.setOwner(this);
+		}
 		this.phoneNumbers = phoneNumbers;
 	}
 
@@ -237,5 +239,16 @@ public class Person implements Serializable {
 
 	public Timestamp getTimestamp() {
 		return timestamp;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Person '").append(this.getId());
+		sb.append("': [").append(this.getFirstName());
+		sb.append(", ").append(this.getLastName());
+		sb.append(", ").append(this.getPhoneNumbers().toString());
+		sb.append("] ").append(this.getTimestamp().toString());
+		return sb.toString();
 	}
 }

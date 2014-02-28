@@ -101,7 +101,7 @@ public class PhoneBookServiceImpl implements Serializable, PhoneBookService {
 		// Merging the entity with the database will have the data synchronized (including the phone numbers)
 		this.em.merge(person);
 		// Flush the changes into db
-		this.em.flush();
+//		this.em.flush();
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class PhoneNumber implements Serializable {
 
 	@Column(name = "\"phonenumber\"")
 	@NotNull
-	@Size(min = 4, max = 24)
+	@Size(min = 3, max = 24)
 	// There could be all sorts of regexp / listener validation to check that the number is in correct format / valid
 	// number (we leave this fancy checking out now)
 	private String phoneNumber = null;
