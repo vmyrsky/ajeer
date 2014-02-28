@@ -53,7 +53,7 @@
 }
 
 .number_col1 {
-  width: 100px;
+  width: 90px;
 }
 
 .number_col2 {
@@ -89,7 +89,7 @@
   cursor: pointer !important;
 }
 
-.ok {
+.close {
   position: relative;
   vertical-align: top;
   height: 1.5em;

@@ -26,9 +26,9 @@
     <!-- Angular; Best Practice: Prefer using directives via tag name and attributes over comment and class names -->
     <div id="person_row" class="row" ng-class-even="'evenRow'" ng-class-odd="'oddRow'"
       ng-repeat="person in persons  | filter:personFilter">
+      <div id="col0" class="col0 cell selectable" ng-click="selectPerson(person)">{{person.id}}</div>
       <!-- Seems like a bug: elements after directive in repeat won't get rendered -->
       <div id="col_remove" class="remove" ng-click="removePerson(person.id)">&nbsp;</div>
-      <div id="col0" class="col0 cell selectable" ng-click="selectPerson(person)">{{person.id}}</div>
       <!-- Angular directive -->
       <add-edit-text-fields field1="person.names" field2="person.lastName" style1="col1 cell selectable"
         style2="col2 cell selectable" />

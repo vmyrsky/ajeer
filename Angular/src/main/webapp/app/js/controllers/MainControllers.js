@@ -25,6 +25,8 @@ angularPOC
 							$scope.criteriaType = $scope.criteriaTypes[0];
 							$scope.style = "default";
 							$scope.hello = "Not called anything yet!";
+							// Will hold the unmodified data
+							$scope.originalPersonsModel = [];
 							$scope.persons = [ {
 								"id" : 1,
 								"timestamp" : "2014-02-13T16:54:18.498",

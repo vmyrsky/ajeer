@@ -312,6 +312,44 @@ angularPOC
 														failCallback();
 													});
 								},
+								savePhoneNumberChanges : function(successCallback,
+										failCallback, data) {
+
+									$http(
+											{
+												url : 'http://localhost:8080/jeer/rest/person',
+												dataType : 'json',
+												method : 'PUT',
+												data : data,
+												headers : {
+													"Content-Type" : "application/json"
+												}
+											})
+											.success(
+													function(data, status) {
+
+														ShareDataService
+																.setMessage(
+																		data.description,
+																		data.responseStatus);
+														if (data.responseStatus == "OK") {
+															successCallback(data);
+														} else {
+															console
+																	.log("ErrorDescription: "
+																			+ data.description);
+															failCallback();
+														}
+													})
+											.error(
+													function(status) {
+														console
+																.log("error: "
+																		+ JSON
+																				.stringify(status));
+														failCallback();
+													});
+								},
 								getEmptyPerson : function(successCallback,
 										failCallback) {
 

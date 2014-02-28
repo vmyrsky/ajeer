@@ -16,6 +16,8 @@ angularPOC
 
 							$scope.personId = $routeParams.personId;
 							$scope.useDemoData = false;
+							// Will hold the unmodified data
+							$scope.originalPhonenumbersModel = [];
 							$scope.person = {
 								"id" : 1,
 								"timestamp" : "2014-02-13T16:54:18.498",
@@ -58,6 +60,9 @@ angularPOC
 									// additional payload
 									$scope.person = data.payload.person[0];
 									$scope.person.phonenumbers = data.payload.phonenumber;
+									$scope.originalPhonenumbersModel = angular
+											.copy($scope.person.phonenumbers);
+									$scope.phonenumberForm.$setPristine();
 								};
 								var failCallback = function() {
 									var msg = "Failed to get person details";
@@ -189,6 +194,37 @@ angularPOC
 								};
 								RestServices.getPhonenumberTypes(
 										getTypesSuccess, getTypesFail);
+							};
+
+							// Cancel all modification made to persons data
+							$scope.cancelPhonenumberChanges = function() {
+								// Note: We could also just reload everything,
+								// but we save a little bit of network traffic
+								// this way
+								$scope.person.phonenumbers = angular
+										.copy($scope.originalPhonenumbersModel);
+								$scope.phonenumberForm.$setPristine();
+							};
+
+							// Save all modification made to persons data
+							$scope.savePhonenumberChanges = function() {
+
+								console.log("Update all phone numbers: "
+										+ JSON.stringify($scope.person));
+								var saveSuccess = function(data) {
+									// Reload the data
+									$scope.getDetails($scope.personId);
+								};
+								var saveFail = function() {
+									var msg = "Failed to save new phone number";
+									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
+								};
+								// We could select only the modified data to be
+								// sent, but the JPA will have only the actual
+								// changes persisted (so we can be lazy here)
+								RestServices.savePhoneNumberChanges(saveSuccess,
+										saveFail, $scope.person);
 							};
 
 							$scope.getDetails($scope.personId);
