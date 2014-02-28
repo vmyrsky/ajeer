@@ -24,6 +24,7 @@ import com.example.service.interfaces.PhoneBookService.SearchType;
 import com.example.model.KeyValuePair;
 import com.example.model.Response;
 import com.example.model.Response.Status;
+import com.example.util.BeanValidator;
 import com.example.util.IdConverter;
 
 /**

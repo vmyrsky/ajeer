@@ -98,17 +98,18 @@ public class PhoneNumberRest {
 			this.pbService.addPerson(person);
 		}
 		// Add the number for person + add the owner for the number
+		// Note: The owner of the phone number is set with this setter,
+		// else it will be null and result in constraint violation
 		person.addNumber(number);
-		number.setOwner(person);
 		// Validate the object
-		List<ConstraintViolationMessage> errors = this.validator.validate(number);
+		List<ConstraintViolationMessage> violations = this.validator.validate(number);
 
-		if (errors.size() == 0) {
-			this.pbService.addPhoneNumber(number);
+		if (violations.size() > 0) {
+			response.setResponseStatus(Status.ERROR);
+			response.setDescription("There are constraint violations");
+			response.setPayload(violations);
 		} else {
-			response.setResponseStatus(Status.WARNING);
-			response.setDescription("The data given for new phone number is not valid to be persisted");
-			response.setPayload(errors);
+			this.pbService.addPhoneNumber(number);
 		}
 
 		return response;

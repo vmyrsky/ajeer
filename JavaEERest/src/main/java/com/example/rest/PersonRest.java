@@ -1,13 +1,17 @@
 package com.example.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.json.JsonArray;
+import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -134,19 +138,62 @@ public class PersonRest {
 			// To create a mock number
 			// newPerson.addNumber(new PhoneNumber(newPerson, Type.CELL, "1234567890", "test"));
 			// Validate the object
-			List<ConstraintViolationMessage> errors = this.validator.validate(newPerson);
-			if (errors.size() == 0) {
-				this.pbService.addPerson(newPerson);
+			List<ConstraintViolationMessage> violations = this.validator.validate(newPerson);
+			if (violations.size() > 0) {
+				response.setResponseStatus(Status.ERROR);
+				response.setDescription("There are constraint violations");
+				response.setPayload(violations);
 			} else {
-				response.setResponseStatus(Status.WARNING);
-				response.setDescription("The data given for new person is not valid to be persisted");
-				response.setPayload(errors);
+				this.pbService.addPerson(newPerson);
 			}
 		} catch (NumberFormatException nfe) {
 			String msg = "Can not map the data into entity";
 			System.out.println(msg);
 			return new Response(Response.Status.ERROR, msg);
 		}
+		return response;
+	}
+
+	/**
+	 * This will respond to PUT request with dataType : 'json' & "Content-Type" : "application/json".<br/>
+	 * Will update the provided list of phone number entities in database.
+	 * 
+	 * @param personId The id of the person to update these num
+	 * @return A {@link Response} object stating how things went
+	 */
+	// Warning: Using @XmlTransient mappings in the entity will cause data loss if not taken care in the UI that the
+	// data is provided. Use beanValidator to catch such errors!
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updatePersonPhoneNumbers(List<PhoneNumber> phoneNumbers,
+	        @QueryParam(value = PERSON_ID_PARAM) final String personId) {
+		System.out.println("updatePerson: " + phoneNumbers.toString());
+		Response response = new Response();
+
+		// The whole person will be merged with the database => if there were missing data, it will be
+		// removed/nullified => may cause bean validation error.
+		int id;
+		try {
+			id = this.idConverter.resolveId(PERSON_ID_PARAM, personId);
+			Person person = this.pbService.getPerson(id);
+			// Note: The owner of the phone number is set with this setter,
+			// else it will be null and result in constraint violation
+			person.setPhoneNumbers(phoneNumbers);
+			List<ConstraintViolationMessage> violations = this.validator.validate(person);
+			if (violations.size() > 0) {
+				response.setPayload(violations);
+				response.setDescription("There are constraint violations");
+				response.setResponseStatus(Status.ERROR);
+			} else {
+				this.pbService.updatePerson(person);
+				response.setDescription("Phone numbers updated for person '" + id + "'");
+			}
+		} catch (BadParameterException bpe) {
+			response.setDescription(bpe.getMessage());
+			response.setResponseStatus(Status.ERROR);
+		}
+
 		return response;
 	}
 

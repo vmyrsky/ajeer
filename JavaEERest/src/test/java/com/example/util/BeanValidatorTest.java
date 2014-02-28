@@ -74,7 +74,7 @@ public class BeanValidatorTest extends TestCase {
 		// but Interceptors do not work when doing plain JUnit test
 		person.getPhoneNumbers().get(0).setNumberType((Type) null);
 		System.out.println(person.getPhoneNumbers().get(0).getNumberType());
-		person.getPhoneNumbers().get(0).setPhoneNumber("123");
+		person.getPhoneNumbers().get(0).setPhoneNumber("1");
 		List<ConstraintViolationMessage> errors = validator.validate(person);
 		assertEquals(2, errors.size());
 
@@ -94,7 +94,7 @@ public class BeanValidatorTest extends TestCase {
 		assertEquals("null", error1.getErrorValue());
 		assertEquals("may not be null", error1.getErrorMessage());
 		assertEquals("phoneNumbers[0].phoneNumber", error2.getItemName());
-		assertEquals("123", error2.getErrorValue());
-		assertEquals("size must be between 4 and 24", error2.getErrorMessage());
+		assertEquals("1", error2.getErrorValue());
+		assertEquals("size must be between 3 and 24", error2.getErrorMessage());
 	}
 }
