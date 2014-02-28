@@ -24,7 +24,7 @@ angularPOC
 								"names" : "Harry 'Japanese version'",
 								"lastName" : "Potteruu"
 							};
-							$scope.person.phonenumbers = [ {
+							$scope.person.phonenumber = [ {
 								"id" : 1,
 								"timestamp" : "2014-02-12T08:50:04.916",
 								"numberType" : "WORK",
@@ -59,9 +59,9 @@ angularPOC
 									// numbers as
 									// additional payload
 									$scope.person = data.payload.person[0];
-									$scope.person.phonenumbers = data.payload.phonenumber;
+									$scope.person.phonenumber = data.payload.phonenumber;
 									$scope.originalPhonenumbersModel = angular
-											.copy($scope.person.phonenumbers);
+											.copy($scope.person.phonenumber);
 									$scope.phonenumberForm.$setPristine();
 								};
 								var failCallback = function() {
@@ -81,7 +81,10 @@ angularPOC
 								var successCallback = function(data) {
 									console.log("Got person phonenumbers: "
 											+ JSON.stringify(data));
-									$scope.person.phonenumbers = data.payload.phonenumber;
+									$scope.person.phonenumber = data.payload.phonenumber;
+									$scope.originalPhonenumbersModel = angular
+											.copy($scope.person.phonenumber);
+									$scope.phonenumberForm.$setPristine();
 								};
 								var failCallback = function() {
 									var msg = "Failed to get person phone numbers";
@@ -155,8 +158,9 @@ angularPOC
 									$scope.newNumber.numberType = $scope.numberTypes[0];
 								};
 								var addNumberFail = function() {
-									var msg = "Failed to add phone number";
+									var msg = "Failed to add new phone number";
 									console.log(msg);
+									ShareDataService.addMessage(msg, "ERROR");
 								};
 
 								RestServices.addPhoneNumber(addNumberSuccess,
@@ -201,7 +205,7 @@ angularPOC
 								// Note: We could also just reload everything,
 								// but we save a little bit of network traffic
 								// this way
-								$scope.person.phonenumbers = angular
+								$scope.person.phonenumber = angular
 										.copy($scope.originalPhonenumbersModel);
 								$scope.phonenumberForm.$setPristine();
 							};
@@ -216,15 +220,17 @@ angularPOC
 									$scope.getDetails($scope.personId);
 								};
 								var saveFail = function() {
-									var msg = "Failed to save new phone number";
+									var msg = "Failed to update phone numbers";
 									console.log(msg);
 									ShareDataService.addMessage(msg, "ERROR");
 								};
 								// We could select only the modified data to be
 								// sent, but the JPA will have only the actual
 								// changes persisted (so we can be lazy here)
-								RestServices.savePhoneNumberChanges(saveSuccess,
-										saveFail, $scope.person);
+								RestServices.savePhoneNumberChanges(
+										saveSuccess, saveFail,
+										$scope.person.phonenumber,
+										$scope.personId);
 							};
 
 							$scope.getDetails($scope.personId);

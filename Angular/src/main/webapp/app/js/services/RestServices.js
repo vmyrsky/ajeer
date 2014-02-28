@@ -313,11 +313,11 @@ angularPOC
 													});
 								},
 								savePhoneNumberChanges : function(successCallback,
-										failCallback, data) {
+										failCallback, data, personId) {
 
 									$http(
 											{
-												url : 'http://localhost:8080/jeer/rest/person',
+												url : 'http://localhost:8080/jeer/rest/person?personId='+personId,
 												dataType : 'json',
 												method : 'PUT',
 												data : data,

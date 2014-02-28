@@ -5,8 +5,8 @@
     <label for="number_search">Search persons by phone number (done by JPA)</label>
   </div>
   <div id="number_search">
-    <input id="criteriaString" type="text" class="criteria_string" ng-model="criteriaString" />
-    <select id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.value for type in criteriaTypes" />
+    <input id="criteriaString" type="text" class="criteria_string" ng-model="criteriaString" /> <select
+      id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.value for type in criteriaTypes" />
   </div>
   <div id="search">
     <button id="find_by_numbers" ng-click="getLimitedPersons()">Find by phone numbers</button>
@@ -33,7 +33,19 @@
       <add-edit-text-fields field1="person.names" field2="person.lastName" style1="col1 cell selectable"
         style2="col2 cell selectable" />
     </div>
+    <div id="buttons" class="buttons">
+      <div class="save_button">
+        <button ng-disabled="personsForm.$pristine" id="saveChanges" ng-click="savePersonChanges()" class="save_button">Save
+          changes</button>
+      </div>
+      <div class="cancel_button">
+        <button ng-disabled="personsForm.$pristine" id="cancelChanges" ng-click="cancelPersonChanges()" class="cancel">Cancel
+          changes</button>
+      </div>
+    </div>
+    
     <div id="new_person_row" class="row">
+    <div id="col0" class="col0 cell">id gen- erated</div>
       <div id="col1" class="col1 cell">
         <div>
           <label for="names">A list of names (white space separated)</label>
@@ -47,19 +59,11 @@
         <input id="lastname" type="text" ng-model="newPerson.lastName" />
       </div>
     </div>
+
+    <div>
+      <a id="addPerson" ng-click="addPerson()" class="add">add new person</a>
+    </div>
   </div>
 
-  <div>
-    <a id="addPerson" ng-click="addPerson()" class="add">add new person</a>
-  </div>
-  <div id="buttons" class="buttons">
-    <div class="save_button">
-      <button ng-disabled="personsForm.$pristine" id="saveChanges" ng-click="savePersonChanges()" class="save_button">Save
-        changes</button>
-    </div>
-    <div class="cancel_button">
-      <button ng-disabled="personsForm.$pristine" id="cancelChanges" ng-click="cancelPersonChanges()" class="cancel">Cancel
-        changes</button>
-    </div>
-  </div>
+
 </form>

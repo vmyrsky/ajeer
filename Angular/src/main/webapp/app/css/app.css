@@ -11,7 +11,7 @@
 }
 
 .table {
-  width: 720px;
+  width: 740px;
   border: 1px solid #000;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .col0 {
-  width: 40px;
+  width: 60px;
   font-size: 14px;
   color: blue;
   display: inline-block;
