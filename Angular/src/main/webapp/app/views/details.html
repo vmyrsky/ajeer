@@ -2,12 +2,12 @@
 <form name="phonenumberForm">
   <!-- The controller is already defined in the app.js -->
   <!-- The json structure of a Person & PhoneNumber is defined in entities of jpa2...Person.java & PhoneNumber.java -->
-  <div id="header" class="header">Phone number details of a person: {{person.names}} {{person.lastName}}</div>
+  <div id="header" class="header">{{'table_details.LIST_NUMBERS' | translate}} {{person.names}} {{person.lastName}}</div>
   <div id="person_details_table" class="phonenumber_table">
 
-    <div id="number_col1_header" class="number_col1 header">Type</div>
-    <div id="number_col2_header" class="number_col2 header">Phone number</div>
-    <div id="number_col3_header" class="number_col3 header">Description</div>
+    <div id="number_col1_header" class="number_col1 header">{{'table_details.HEADER_1' | translate}}</div>
+    <div id="number_col2_header" class="number_col2 header">{{'table_details.HEADER_2' | translate}}</div>
+    <div id="number_col3_header" class="number_col3 header">{{'table_details.HEADER_3' | translate}}</div>
     <div id="number_row" class="row" ng-class-even="'evenRow'" ng-class-odd="'oddRow'"
       ng-repeat="phonenumber in person.phonenumber">
       <div id="number_col1" class="number_col1 cell">{{phonenumber.numberType}}</div>
@@ -20,38 +20,38 @@
     <div id="buttons" class="buttons">
       <div class="save_button">
         <button ng-disabled="phonenumberForm.$pristine" id="saveChanges" ng-click="savePhonenumberChanges()"
-          class="save_button">Save changes</button>
+          class="save_button">{{'buttons.SAVE' | translate}}</button>
       </div>
       <div class="cancel_button">
         <button ng-disabled="phonenumberForm.$pristine" id="cancelChanges" ng-click="cancelPhonenumberChanges()"
-          class="cancel">Cancel changes</button>
+          class="cancel">{{'buttons.CANCEL' | translate}}</button>
       </div>
     </div>
 
     <div id="new_number_row" class="row">
       <div class="number_col1 cell">
         <div>
-          <label for="type">Number type</label>
+          <label for="type">{{'NEW_TYPE' | translate}}</label>
         </div>
         <select id="type" class="number_col1" ng-model="newNumber.numberType"
           ng-options="type.key for type in numberTypes" />
       </div>
       <div class="number_col2 cell">
         <div>
-          <label for="number">Phone number (min 3 chars)</label>
+          <label for="number">{{'NEW_NUMBER' | translate}}</label>
         </div>
         <input id="number" type="text" class="number_col2" ng-model="newNumber.phoneNumber" />
       </div>
       <div class="number_col3 cell">
         <div>
-          <label for="number">Description</label>
+          <label for="number">{{'NEW_DESCRIPTION' | translate}}</label>
         </div>
         <input id="number" type="text" class="number_col3" ng-model="newNumber.description" />
       </div>
     </div>
 
     <div>
-      <a id="addNumber" ng-click="addNumber()" class="add">add new number</a>
+      <a id="addNumber" ng-click="addNumber()" class="add">{{'links.ADD_NEW_NUMBER' | translate}}</a>
     </div>
   </div>
 </form>

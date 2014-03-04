@@ -8,10 +8,14 @@
 	"NEW_ID": "<id>",
 	"NEW_NAME": "Nimilista ('white space' eroteltu)",
 	"NEW_LAST_NAME": "sukunimi (min 2 merkkiä)",
+	"NEW_TYPE": "Tyyppi",
+	"NEW_NUMBER": "Puhelinnro. (min 3 merkkiä)",
+	"NEW_DESCRIPTION": "Kuvaus",
 	"links": {
 		"MAIN": "pääsivu",
 		"DETAILS": "lisätiedot",
-		"ADD_NEW_PERSON": "Lisää uusi henkilö"
+		"ADD_NEW_PERSON": "Lisää uusi henkilö",
+		"ADD_NEW_NUMBER": "Lisää uusi puhelinnumero"
 	},
 	"buttons": {
 		"SEARCH_BY_JPA":"Etsi puhelinnumeroilla",
@@ -23,6 +27,12 @@
 		"HEADER_1":"id",
 		"HEADER_2":"nime(t)",
 		"HEADER_3":"sukunimi"
+	},
+	"table_details": {
+		"LIST_NUMBERS":"Puhelinnumerotiedot henkilöllä:",
+		"HEADER_1":"tyyppi",
+		"HEADER_2":"puhelinnumero",
+		"HEADER_3":"kuvaus"
 	},
 	"GENERAL_NOTIFICATION":"Esimerkki sisältää joitain pieniä 'kauneusvirhe' bugeja, mutta niiden korjaaminen jätetään myöhempään. Tarkoitus on tarjota esimerkkitoteutus, ei tehdä tästä kaikilta osin täydellistä (toistaiseksi)"
 }

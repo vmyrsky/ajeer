@@ -8,10 +8,14 @@
 	"NEW_ID": "<id>",
 	"NEW_NAME": "A list of names ('white space' separated)",
 	"NEW_LAST_NAME": "last name (min 2 chars)",
+	"NEW_TYPE": "Type",
+	"NEW_NUMBER": "Phone number (min 3 chars)",
+	"NEW_DESCRIPTION": "Description",
 	"links": {
 		"MAIN": "main page",
 		"DETAILS": "details page",
-		"ADD_NEW_PERSON": "Add new person"
+		"ADD_NEW_PERSON": "Add new person",
+		"ADD_NEW_NUMBER": "Add new phone number"
 	},
 	"buttons": {
 		"SEARCH_BY_JPA":"Search by phone numbers",
@@ -23,6 +27,12 @@
 		"HEADER_1":"id",
 		"HEADER_2":"name(s)",
 		"HEADER_3":"last name"
+	},
+	"table_details": {
+		"LIST_NUMBERS":"Phone number details for:",
+		"HEADER_1":"type",
+		"HEADER_2":"phone number",
+		"HEADER_3":"description"
 	},
 	"GENERAL_NOTIFICATION":"This example contains few minor 'beauty' bugs, but fixing them is left for later. The idea is to demonstrate the technique, not to make this perfect app down to detail (for now)"
 }
