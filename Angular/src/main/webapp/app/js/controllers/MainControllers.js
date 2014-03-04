@@ -23,6 +23,8 @@ angularPOC
 							$scope.criteriaString = "";
 							$scope.criteriaTypes = [];
 							$scope.criteriaType = $scope.criteriaTypes[0];
+							$scope.language = "fi"; // Default, see i18n/i18n.js
+							// for other options
 							$scope.style = "default";
 							$scope.hello = "Not called anything yet!";
 							// Will hold the unmodified data
@@ -274,9 +276,9 @@ angularPOC
 									console.log(msg);
 									ShareDataService.addMessage(msg, "ERROR");
 								};
-								RestServices.getCriteriaTypes(
-										getTypesSuccess, getTypesFail);
-							}
+								RestServices.getCriteriaTypes(getTypesSuccess,
+										getTypesFail);
+							};
 
 							// Call these when the page is loaded
 							$scope.getAllPersons();

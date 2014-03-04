@@ -1,8 +1,28 @@
-// Note pay attention that keys of these 'i18n_*.json' files are kept the same
-'SELECT_LANG' : 'Valitse kieli',
-'FI' : 'SUOMEKSIaa',
-'EN' : 'In Englishaa',
-links : {
-	'MAIN' : 'pääsivu',
-	'DETAILS' : 'lisätiedot'
+{
+	"SELECT_LANG":"Valitse kieli / select language",
+	"FI":"SUOMEKSI",
+	"EN":"In English",
+	"MESSAGES":"viestit",
+	"SEARCH_BY_JPA":"Etsi henkilöitä puhelinnumeron perusteella (JPA:lla)",
+	"SEARCH_BY_ANGULAR": "Suodata henkilöitä nimien perusteella (Angular:illa)",
+	"NEW_ID": "<id>",
+	"NEW_NAME": "Nimilista ('white space' eroteltu)",
+	"NEW_LAST_NAME": "sukunimi (min 2 merkkiä)",
+	"links": {
+		"MAIN": "pääsivu",
+		"DETAILS": "lisätiedot",
+		"ADD_NEW_PERSON": "Lisää uusi henkilö"
+	},
+	"buttons": {
+		"SEARCH_BY_JPA":"Etsi puhelinnumeroilla",
+		"SAVE": "tallenna muutokset",
+		"CANCEL": "peruuta muutokset"
+	},
+	"table_main": {
+		"LIST_PERSONS":"Lista kaikista henkilöistä puhelinluettelossa",
+		"HEADER_1":"id",
+		"HEADER_2":"nime(t)",
+		"HEADER_3":"sukunimi"
+	},
+	"GENERAL_NOTIFICATION":"Esimerkki sisältää joitain pieniä 'kauneusvirhe' bugeja, mutta niiden korjaaminen jätetään myöhempään. Tarkoitus on tarjota esimerkkitoteutus, ei tehdä tästä kaikilta osin täydellistä (toistaiseksi)"
 }

@@ -5,17 +5,26 @@
 <title>Angular using Java EE REST</title>
 <link rel="stylesheet" href="/Angular/app/css/app.css" />
 
-<!-- Libraries -->
+<!-- Libraries (none Angular) -->
 
 <!-- place jquery BEFORE angular -->
 <script src="/Angular/app/lib/jquery/jquery-1.10.2.js"></script>
 <script src="/Angular/app/lib/jquery/jquery-ui-1.10.3.js"></script>
 <script src="/Angular/app/lib/angular/angular.js"></script>
 
+<!-- Libraries (Angular) -->
+<script src="/Angular/app/lib/angular/angular-translate.min.js"></script>
+<!-- make sure this file is loaded in our view through a script tag after our angular-translate script tag -->
+<script src="/Angular/app/lib/angular/angular-translate-loader-static-files.min.js"></script>
+<script src="/Angular/app/lib/angular/angular-translate-loader-url.min.js"></script>
+
+<!-- Internationalization "i18n" that uses the translation module-->
+<script src="/Angular/app/js/filters/i18n.js"></script>
+
 <!-- This is needed with angular v. 1.2 and newer -->
 <script src="/Angular/app/lib/angular/angular-route.js"></script>
 
-<!-- Routes and config-->
+<!-- Routes and config / the navigation control -->
 <script src="/Angular/app/js/app.js"></script>
 
 <!-- Services -->
@@ -30,19 +39,36 @@
 <!-- Directives -->
 <script src="/Angular/app/js/directives/AddDirectives.js"></script>
 
+<!-- <script>
+//     var language = {{language}};
+//     }
+//     if(language == "en"){
+//         $.getScript("i18n/angular-locale_en.js");
+//     }
+//     else if (language == "fi") {
+//         $.getScript("i18n/angular-locale_da.js");
+//     }
+//     else{
+//         $.getScript("i18n/angular-locale_no.js");
+//     }
+</script> -->
 </head>
 <!-- AngularJS; Best Practice: Prefer using the dash-delimited format (e.g. ng-bind for ngBind) -->
 <body ng-app="jeea" ng-controller="MessageController" class="default">
   <div>
+    <div>
+      {{'SELECT_LANG' | translate}}<br /> <span class="links" ng-click="chooseLanguage('fi')">{{'FI' |
+        translate}}</span><br /> <span class="links" ng-click="chooseLanguage('en')">{{'EN' | translate}}</span>
+    </div>
     <div class="links">
       <ul>
-        <li><a href="#/ajeer">Main</a></li>
-        <li><a href="#/ajeer/details/id">Details</a></li>
+        <li><a href="#/ajeer">{{'links.MAIN' | translate}}</a></li>
+        <li><a href="#/ajeer/details/id">{{'links.DETAILS' | translate}}</a></li>
       </ul>
     </div>
 
     <div id="messages" class="messages" ng-show="hasMessages">
-      <div>Messages</div>
+      <div>{{'MESSAGES' | translate}}</div>
       <div id="messagesList" ng-repeat="message in messages">
         <div id="message" ng-class="message.type">{{message.text}}</div>
       </div>
@@ -55,7 +81,7 @@
 
   <br />
   <br />
-  <div>There are few minor bugs, but the idea is to demonstrate the technique, not to make this perfect app</div>
+  <div>{{'GENERAL_NOTIFICATION' | translate}}</div>
   <br />
   <div id="test">
     <h3>Test REST by JQuery</h3>

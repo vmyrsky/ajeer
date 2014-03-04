@@ -1,8 +1,0 @@
-// Note pay attention that keys of these 'i18n_*.json' files are kept the same
-'SELECT_LANG' : 'Valitse kieli',
-'FI' : 'SUOMEKSIaa',
-'EN' : 'In Englishaa',
-links : {
-	'MAIN' : 'pääsivu',
-	'DETAILS' : 'lisätiedot'
-}

@@ -11,7 +11,7 @@
 var angularPOC = angular.module(
 		'angularPOC',
 		[ 'ngRoute', 'MessageControllers', 'MainControllers',
-				'DetailControllers' ]).config(
+				'DetailControllers', 'AngularTranslate' ]).config(
 		[ '$routeProvider', '$locationProvider',
 				function($routeProvider, $locationProvider) {
 

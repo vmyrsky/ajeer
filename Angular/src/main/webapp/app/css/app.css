@@ -115,18 +115,15 @@
 }
 
 .buttons {
-  width: 300px;
+  width: auto;
 }
 
 .save_button {
-  position: relative;
   float: left;
   display: inline-block;
 }
 
 .cancel_button {
-  position: relative;
-  float: left;
   display: inline-block;
 }
 

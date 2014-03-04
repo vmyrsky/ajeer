@@ -2,27 +2,27 @@
 <form name="personsForm">
   <!-- The controller is already/also defined in the app.js -->
   <div id="number_search_label">
-    <label for="number_search">Search persons by phone number (done by JPA)</label>
+    <label for="number_search">{{'SEARCH_BY_JPA' | translate}}</label>
   </div>
   <div id="number_search">
     <input id="criteriaString" type="text" class="criteria_string" ng-model="criteriaString" /> <select
       id="criteriaType" class="criteria_type" ng-model="criteriaType" ng-options="type.value for type in criteriaTypes" />
   </div>
   <div id="search">
-    <button id="find_by_numbers" ng-click="getLimitedPersons()">Find by phone numbers</button>
+    <button id="find_by_numbers" ng-click="getLimitedPersons()">{{'buttons.SEARCH_BY_JPA' | translate}}</button>
   </div>
   <!-- The json structure of a person is defined in entity of jpa2...Person.java -->
   <div id="filter_label">
-    <label for="filter">Filter persons (done by Angular)</label>
+    <label for="filter">{{'SEARCH_BY_ANGULAR' | translate}}</label>
   </div>
   <div id="filter">
     <input type="text" class="person_filter" ng-model="personFilter" />
   </div>
-  <div id="header" class="header">List of all persons in the phonebook</div>
+  <div id="header" class="header">{{'table_main.LIST_PERSONS' | translate}}</div>
   <div id="phonebook_table" class="table">
-    <div id="person_col0_header" class="col0 header">id</div>
-    <div id="person_col1_header" class="col1 header">name(s)</div>
-    <div id="person_col2_header" class="col2 header">last name</div>
+    <div id="person_col0_header" class="col0 header">{{'table_main.HEADER_1' | translate}}</div>
+    <div id="person_col1_header" class="col1 header">{{'table_main.HEADER_2' | translate}}</div>
+    <div id="person_col2_header" class="col2 header">{{'table_main.HEADER_3' | translate}}</div>
     <!-- Angular; Best Practice: Prefer using directives via tag name and attributes over comment and class names -->
     <div id="person_row" class="row" ng-class-even="'evenRow'" ng-class-odd="'oddRow'"
       ng-repeat="person in persons  | filter:personFilter">
@@ -35,33 +35,31 @@
     </div>
     <div id="buttons" class="buttons">
       <div class="save_button">
-        <button ng-disabled="personsForm.$pristine" id="saveChanges" ng-click="savePersonChanges()" class="save_button">Save
-          changes</button>
+        <button ng-disabled="personsForm.$pristine" id="saveChanges" ng-click="savePersonChanges()" class="save_button">{{'buttons.SAVE' | translate}}</button>
       </div>
       <div class="cancel_button">
-        <button ng-disabled="personsForm.$pristine" id="cancelChanges" ng-click="cancelPersonChanges()" class="cancel">Cancel
-          changes</button>
+        <button ng-disabled="personsForm.$pristine" id="cancelChanges" ng-click="cancelPersonChanges()" class="cancel">{{'buttons.CANCEL' | translate}}</button>
       </div>
     </div>
     
     <div id="new_person_row" class="row">
-    <div id="col0" class="col0 cell">id gen- erated</div>
+    <div id="col0" class="col0 cell">{{'NEW_ID' | translate}}</div>
       <div id="col1" class="col1 cell">
         <div>
-          <label for="names">A list of names (white space separated)</label>
+          <label for="names">{{'NEW_NAME' | translate}}</label>
         </div>
         <input id="names" type="text" ng-model="newPerson.names" />
       </div>
       <div id="col1" class="col2 cell">
         <div>
-          <label for="lastname">last name (min 2 chars)</label>
+          <label for="lastname">{{'NEW_LAST_NAME' | translate}}</label>
         </div>
         <input id="lastname" type="text" ng-model="newPerson.lastName" />
       </div>
     </div>
 
     <div>
-      <a id="addPerson" ng-click="addPerson()" class="add">add new person</a>
+      <a id="addPerson" ng-click="addPerson()" class="add">{{'links.ADD_NEW_PERSON' | translate}}</a>
     </div>
   </div>
 

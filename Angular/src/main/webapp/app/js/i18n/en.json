@@ -1,8 +1,28 @@
-// Note pay attention that keys of these 'i18n_*.json' files are kept the same
-'SELECT_LANG' : 'Choose language',
-'FI' : 'Suomeksibb',
-'EN' : 'IN ENGLISHbb',
-links : {
-	'MAIN' : 'main page',
-	'DETAILS' : 'details page'
+{
+	"SELECT_LANG":"Select language / valitse kieli",
+	"FI":"Suomeksi",
+	"EN":"IN ENGLISH",
+	"MESSAGES":"messages",
+	"SEARCH_BY_JPA":"Search persons by phone number (done by JPA)",
+	"SEARCH_BY_ANGULAR": "Filter persons by names (done by Angular)",
+	"NEW_ID": "<id>",
+	"NEW_NAME": "A list of names ('white space' separated)",
+	"NEW_LAST_NAME": "last name (min 2 chars)",
+	"links": {
+		"MAIN": "main page",
+		"DETAILS": "details page",
+		"ADD_NEW_PERSON": "Add new person"
+	},
+	"buttons": {
+		"SEARCH_BY_JPA":"Search by phone numbers",
+		"SAVE": "Save changes",
+		"CANCEL": "Cancel changes"
+	},
+	"table_main": {
+		"LIST_PERSONS":"List of all persons in the phonebook",
+		"HEADER_1":"id",
+		"HEADER_2":"name(s)",
+		"HEADER_3":"last name"
+	},
+	"GENERAL_NOTIFICATION":"This example contains few minor 'beauty' bugs, but fixing them is left for later. The idea is to demonstrate the technique, not to make this perfect app down to detail (for now)"
 }
