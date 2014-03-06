@@ -19,13 +19,13 @@
 <script src="/Angular/app/lib/angular/angular-translate-loader-url.min.js"></script>
 
 <!-- Internationalization "i18n" that uses the translation module-->
-<script src="/Angular/app/js/filters/i18n.js"></script>
+<script src="/Angular/app/js/filters/I18N.js"></script>
 
 <!-- This is needed with angular v. 1.2 and newer -->
 <script src="/Angular/app/lib/angular/angular-route.js"></script>
 
 <!-- Routes and config / the navigation control -->
-<script src="/Angular/app/js/app.js"></script>
+<script src="/Angular/app/js/App.js"></script>
 
 <!-- Services -->
 <script src="/Angular/app/js/services/RestServices.js"></script>
@@ -39,22 +39,9 @@
 <!-- Directives -->
 <script src="/Angular/app/js/directives/AddDirectives.js"></script>
 
-<!-- <script>
-//     var language = {{language}};
-//     }
-//     if(language == "en"){
-//         $.getScript("i18n/angular-locale_en.js");
-//     }
-//     else if (language == "fi") {
-//         $.getScript("i18n/angular-locale_da.js");
-//     }
-//     else{
-//         $.getScript("i18n/angular-locale_no.js");
-//     }
-</script> -->
 </head>
 <!-- AngularJS; Best Practice: Prefer using the dash-delimited format (e.g. ng-bind for ngBind) -->
-<body ng-app="jeea" ng-controller="MessageController" class="default">
+<body ng-controller="MessageController" class="default">
   <div>
     <div>
       {{'SELECT_LANG' | translate}}<br /> <span class="links" ng-click="chooseLanguage('fi')">{{'FI' |
@@ -75,7 +62,7 @@
     </div>
     <br />
 
-    <!-- Content here is loaded from the file specified with the 'templateUrl' in app.js -->
+    <!-- Content here is loaded from the file specified with the 'templateUrl' in App.js -->
     <ng-view></ng-view>
   </div>
 

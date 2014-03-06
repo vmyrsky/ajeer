@@ -1,6 +1,6 @@
 'use strict';
 
-var MainControllers = angular.module('MainControllers', []);
+//var MainControllers = angular.module('MainControllers', []);
 
 var angularPOC = angular.module('angularPOC');
 

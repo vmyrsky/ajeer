@@ -1,7 +1,5 @@
 'use strict';
 
-var DetailsControllers = angular.module('DetailControllers', []);
-
 var angularPOC = angular.module('angularPOC');
 angularPOC
 		.controller(

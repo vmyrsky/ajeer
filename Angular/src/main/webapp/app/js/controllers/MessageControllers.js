@@ -1,7 +1,5 @@
 'use strict';
 
-var MessageControllers = angular.module('MessageControllers', []);
-
 var angularPOC = angular.module('angularPOC');
 angularPOC.controller('MessageController', [ '$scope', '$routeParams',
 		'$timeout', '$translate', 'ShareDataService',
