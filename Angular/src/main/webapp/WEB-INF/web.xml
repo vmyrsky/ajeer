@@ -6,7 +6,7 @@
     Angular.js using Java EE REST (Jersey) using JPA2 with Arquillian
   </description>
 
-  <!-- For serving the json files as json -->
+  <!-- For serving the static json files as json -->
   <mime-mapping>
     <extension>json</extension>
     <mime-type>application/json</mime-type>
