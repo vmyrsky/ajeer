@@ -1,6 +1,6 @@
 ----- Eclipse (Kepler) -----
 
-1) Configure facets
+1) Configure facets (You need this when deployed on GlassFish from Eclipse)
  * Right click on the "project name" (Angular) in Navigator / Project Explorer
  * Select 'properties'
  * Open 'Project Facets'
@@ -13,6 +13,54 @@
     available to deploy the project onto container
   > Java               | 1.7
   > JavaScript         | 1.0
+  
+  
+----- Jetty support -----
+
+  Jetty is a light weight (embedded) web-server that can be used to run this Angular project as stand alone.
+  It can be used to run simply the Angular part without the need of setting up GlassFish & Java part.
+  
+  The idea is to provide a "fast start" for UI development when there is not yet any backend to provide data or even
+  a container configured to host the application.
+  
+  You will not have the application correctly functional when using Jetty, as it will not have the backend providing
+  the REST services it relies on, but you can enable the 'demoData' to have something rendered on UI and to play just
+  with the AngularJS.
+  
+  To enable the demo data, you will need to open the files
+  * /src/main/webapp/app/js/controllers/
+   > DetailsControllers.js
+   > MainControllers.js
+  * Both files do have the following line somewhere in the beginning of the file
+   > $scope.useDemoData = false;
+    - Change this to
+   > $scope.useDemoData = true;
+  
+  The 'demoData' mode will make the model use some demo data instead of fetching it from the REST.
+  
+  The Jetty is configured to scan the project files for changes every 5th second. E.g. If you make a change in the
+  JavaScript files (and save it), the change will be reflected to the running service within 5 seconds.
+  You can change this and other configuration settings in the pom.xml at 'jetty-maven-plugin'.
+  
+  You can also provide a separate configuration file for Jetty:
+  * src/main/webapp/WEB-INF/jetty-web.xml
+  
+  To run the Jetty server, you can do this from command line or in Eclipse.
+  Command line:
+   * cd to project root, e.g.
+    > cd ~/ajeer/Angular
+   * Execute Maven command to use the jetty plugin
+    > mvn jetty:run
+  Eclipse:
+   * Right click on the project name
+   * Select: 'Run as' > 'Maven build...'
+   * Write to 'goals': 'jetty:run'
+   * Give a descriptive name for the build
+   * Click 'Run'
+   * On subsequent runs/starts, you can select: 'Run as' > 'Maven build' > (the name you gave for the build)
+  
+  The settings provided by default will publish the Angular project at
+  'http://localhost:9090/Angular'
 
 
 ----- Project structure -----
