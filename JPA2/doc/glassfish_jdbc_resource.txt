@@ -43,7 +43,7 @@ To create a JDBC resource into glassfish that the "JPA" can use, do the followin
  * Provide information for the new resource
   > JNDI name: jdbc/phonebook
    - This has to match with the 'jta-data-source' element value in the persistence.xml
-  > Pool Name: <the pool you created above>
+  > Pool Name: <the pool you created in step 3.>
   > Description: <up to you>
   > Status: <enable>
   > No need for additional properties
