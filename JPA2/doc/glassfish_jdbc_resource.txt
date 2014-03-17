@@ -1,0 +1,50 @@
+To create a JDBC resource into glassfish that the "JPA" can use, do the following setting for glassfish
+
+1) Start glassfish (no need to have anything deployed)
+2) With browser, open url: http://localhost:4848
+3) Add a connection pool. On the navigation panel on the left, go to:
+ * Resources > JDBC > JDBC Connection Pools
+ * Click 'new'
+ * Provide the information for the new pool
+  > Pool Name: <name>
+  > Resource Type: javax.sql.DataSource
+  > Database Driver Vendor: Derby
+  > Introspect: <not selected>
+ * Click 'next'
+  > Ping: <enable>
+  > (You can leave other options to defaults)
+ * View 'Additional Properties' and set/add the following properties
+  > <propertyName> : <value>
+  > User : APP (derby default, change if you have different)
+  > DatabaseName : phonebook
+  > RetrieveMessageText : true
+  > CreateDatabase : true
+  > Password : APP (derby default, change if you have different)
+  > Ssl : off
+  > ServerName: localhost
+  > SecurityMechanism : 4
+  > TraceFileAppend : false
+  > TraceLevel : -1
+  > PortNumber : 1527
+  > LoginTimeout : 0
+ * Click 'finish'
+ * On the left panel, select: Resources > JDBC > JDBC Connection Pools > <the name of the pool created>
+ * On the page opened, there should be a 'Ping' button. Click it to test that your connection/pool is set up correctly
+  > You need to have the database started as this will not use derby database embedded with the GlassFish (You can change the database to any other this way, it does not have to be Derby)
+ * When the ping succeeds it should also had created the database for you as it was instructed so
+  > The configurations in the persistence.xml will instruct the 'JPA' part to create the tables from entities (if there are none previously)
+ * If the ping fails, check these first
+  > Database service is running (try connecting manually from command line or with some tool => E.g. you can test connectivity with Eclipse)
+  > Are the properties set for the pool correct
+  > Are there some firewall / (java) security settings preventing the connection
+4) Add a JDBC resource. On the navigation panel on the left, go to:
+ * Resources > JDBC > JDBC Resources
+ * Click 'new'
+ * Provide information for the new resource
+  > JNDI name: jdbc/phonebook
+   - This has to match with the 'jta-data-source' element value in the persistence.xml
+  > Pool Name: <the pool you created above>
+  > Description: <up to you>
+  > Status: <enable>
+  > No need for additional properties
+   

@@ -1,15 +1,15 @@
-To have the JPA working and the database tables created from entities, do the following:
+To have the JPA working and the database tables to be created from entities, do the following:
 
 1) Create 'persistence.xml' at META-INF directory on classpath (META-INF is the default location for it)
  * e.g. The following will do:
   > src/resources/META-INF
   > src/webapp/WEB-INF/META-INF (Use this, if you have a web project)
- * An example file is provided with this project seed in 'src/resources/META-INF/persistence.xml' (delete this if you
-   provide you own somewhere else)
+ * An example file is provided with this project seed in 'src/resources/META-INF/persistence.xml'
  * There are also an example test with Arquillian. It does have it's own persistence.xml file in
    'src/test/glassfish-embedded/test-persistence.xml'
  * In the persistence file, you can have simply '<jta-data-source>jdbc/phonebook</jta-data-source>' which tells that
    the data source provided by GlassFish is then used and configurations put there will be used
+  > You need to configure the datasource in GlassFish (there are separate instruction for that) 
 
 Optional: (If you decide to bypass the GlassFish provided connection, you can also connect to db directly, but you must
 use eclipse to create the database and it's tables)
