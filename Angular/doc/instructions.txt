@@ -91,3 +91,31 @@ structured as follows:
                                           The file will include all the scripts needed to load Angular and will provide
                                           the basic layout for the whole SPA (Single Page Application)
  
+ ----- Testing (AngularJS) -----
+http://karma-runner.github.io/0.12/intro/installation.html
+To create tests for the AngularJS you have created, you need the NodeJS and NPM/NVM for it (read the instructions from the link)
+ * Note: It doesn't specify this explicitly (or didn't notice it). You may need to use '-g' option when installing things. e.g.:
+  > npm install -g karma-cli
+ * The 'package.json' mentioned is basically the same for npm as the 'pom.xml' is for Maven
+ 
+ * Note: The instructions tell you to install karma with 'npm install -g karma', if you do this, you need to do the following also
+   (you should not need to do this if you fo the install with 'npm install -g karma-cli'
+   => Leaving this instruction here, in case you run into troubles):
+ * You may want to add the reference to 'karma' in the PATH:
+  > vi ~/.bashrc
+   - Scroll to end of the file and add the following (press 'o' if you are using 'vi', then copy paste the following [fix path as needed])
+  > export PATH=$PATH:~/.nvm/v0.10.26/lib/node_modules/karma/bin
+   - ('vi' => press [esc] and type the following)
+  > :wq
+   - Hit enter
+  > Note: You need to check that the path to karma is correct. If/when it is not exactly the same, search for it from similar structure
+   - Actually I believe it should had installed it on 'usr/share', but found it from my home folder when installed with 'npm install -g karma'
+ * open a new shell/terminal and try the following commands:
+  > node --version 
+   - Should print the node version installed (mine was 'v0.10.26')
+  > karma --version
+   - If your PATH was correct, this should now recognize the 'karma' command (for me this printed 'Karma version: 0.12.1')
+ * And if you do the 'karma start', it should print something like this:
+  > karma start
+   - INFO [karma]: Karma v0.12.1 server started at http://localhost:9876/
+ 
