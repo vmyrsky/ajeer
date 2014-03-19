@@ -92,18 +92,27 @@ structured as follows:
                                           the basic layout for the whole SPA (Single Page Application)
  
  ----- Testing (AngularJS) -----
-http://karma-runner.github.io/0.12/intro/installation.html
-To create tests for the AngularJS you have created, you need the NodeJS and NPM/NVM for it (read the instructions from the link)
- * Note: It doesn't specify this explicitly (or didn't notice it). You may need to use '-g' option when installing things. e.g.:
+ * About testing in general (JavaScript)
+  > http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html
+ * How to install karma
+  > http://karma-runner.github.io/0.12/intro/installation.html
+ * What there can be on configuration file (karma.conf.js)
+  > http://karma-runner.github.io/0.12/config/configuration-file.html
+
+ * To create tests for the AngularJS, you need the NodeJS and NPM/NVM for it (read the instructions from the link above)
+ * Note: It doesn't specify this explicitly (or I didn't notice it). You (may) need to use '-g' option when installing things.
+ Trying to do local installation (without the -g parameter) I received lots of 'ERR' notifications.
+   e.g. do:
   > npm install -g karma-cli
- * The 'package.json' mentioned is basically the same for npm as the 'pom.xml' is for Maven
- 
- * Note: The instructions tell you to install karma with 'npm install -g karma', if you do this, you need to do the following also
-   (you should not need to do this if you fo the install with 'npm install -g karma-cli'
-   => Leaving this instruction here, in case you run into troubles):
+ * The 'package.json' mentioned in the instructions is basically the same for NPM as the 'pom.xml' is for Maven
+   (that is, build & dependency instructions)
+ * Note: At first, the instructions tell you to install karma with 'npm install -g karma', if you do this, you need (may want)
+   to do the following also (you should not need to do this if you fo the install with 'npm install -g karma-cli'
+   =>I am leaving this instruction here, in case you run into some troubles):
  * You may want to add the reference to 'karma' in the PATH:
   > vi ~/.bashrc
-   - Scroll to end of the file and add the following (press 'o' if you are using 'vi', then copy paste the following [fix path as needed])
+   - Scroll the cursor to end of the file and add the following
+     (press 'o' if you are using 'vi', then copy paste the following [fix path as needed])
   > export PATH=$PATH:~/.nvm/v0.10.26/lib/node_modules/karma/bin
    - ('vi' => press [esc] and type the following)
   > :wq
@@ -118,4 +127,5 @@ To create tests for the AngularJS you have created, you need the NodeJS and NPM/
  * And if you do the 'karma start', it should print something like this:
   > karma start
    - INFO [karma]: Karma v0.12.1 server started at http://localhost:9876/
+   - double hit [ctrl + C] to exit
  
