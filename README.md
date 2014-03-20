@@ -3,4 +3,4 @@ The presentation can be found from:
 JavaEERest/doc/presentation.odp
 
 For project specific instructions, see the files in:
-<project>/doc/
+&lt;project&gt;/doc/
