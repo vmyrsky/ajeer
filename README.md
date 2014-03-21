@@ -5,4 +5,5 @@ JavaEERest/doc/presentation.odp
 For project specific instructions, see the files in:
 &lt;project&gt;/doc/
 
-You canb also generate the javadocs from the JavaEERest and JPA2 project which should provide you the overview of the classes. The files will be generated in the &lt;project&gt;/doc/ folders. Start by opening the index.html file generated (view in browser).
+You can also generate the javadocs from the JavaEERest and JPA2 project. These should provide you the overview of the classes.
+The files will be generated in the &lt;project&gt;/doc/ folders. Start by opening the index.html file generated (view in browser).
