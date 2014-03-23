@@ -9,23 +9,23 @@
                                         - Context Root: Angular
                                         - Content Directory: src/main/webapp
                                         - Leave 'generate web.xml' unchecked
-  > NOTE: This will enable you the project property 'Deployment assembly' and makes it
-    available to deploy the project onto container
   > Java               | 1.7
   > JavaScript         | 1.0
+ * NOTE: The 'Dynamic Web Module' will enable you the project property 'Deployment assembly' and makes it available to
+   deploy the project onto container
   
   
 ----- Jetty support -----
 
   Jetty is a light weight (embedded) web-server that can be used to run this Angular project as stand alone.
-  It can be used to run simply the Angular part without the need of setting up GlassFish & Java part.
+  It can be used to run simply the Angular part without the need of setting up GlassFish & Java stuff.
   
   The idea is to provide a "fast start" for UI development when there is not yet any backend to provide data or even
-  a container configured to host the application.
+  a container configured to host the application (or you don't want one at all).
   
-  You will not have the application correctly functional when using Jetty, as it will not have the backend providing
-  the REST services it relies on, but you can enable the 'demoData' to have something rendered on UI and to play just
-  with the AngularJS.
+  You will NOT have the whole example application correctly functional when using Jetty, as it will not have the
+  backend providing the REST services it relies on, but you can enable the 'demoData' to have something rendered on UI
+  and only to play around with the AngularJS.
   
   To enable the demo data, you will need to open the files
   * /src/main/webapp/app/js/controllers/
@@ -92,6 +92,13 @@ structured as follows:
                                           the basic layout for the whole SPA (Single Page Application)
  
  ----- Testing (AngularJS) -----
+ * A temporary note: Install chai to enable 'expect' in testing
+   (this and other possible requirements will be at 'package.json' later)
+  > npm install -g chai
+  > npm install -g expect.js
+  > npm install -g requirejs
+  > npm install -g assertion-error (not needed?)
+   - http://karma-runner.github.io/0.8/plus/RequireJS.html
  * About testing in general (JavaScript)
   > http://www.yearofmoo.com/2013/01/full-spectrum-testing-with-angularjs-and-karma.html
  * How to install karma
