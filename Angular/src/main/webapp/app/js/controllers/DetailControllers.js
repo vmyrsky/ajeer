@@ -12,8 +12,8 @@ angularPOC
 						function($scope, $routeParams, RestServices,
 								ShareDataService) {
 
-							$scope.personId = $routeParams.personId;
 							$scope.useDemoData = false;
+							$scope.personId = $routeParams.personId;
 							// Will hold the unmodified data
 							$scope.originalPhonenumbersModel = [];
 							$scope.person = {
