@@ -1,0 +1,37 @@
+{
+    "name": "Angular",
+    "description": "",
+    "version": "0.0.1",
+    "homepage": "",
+    "keywords": [
+        "example"
+    ],
+    "repository": {
+    },
+    "bugs": {"": ""
+    },
+    "author": {
+    },
+    "contributors": [
+        {
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/jeremyosborne/packagejsonexample/blob/master/LICENSE.txt"
+        }
+    ],
+    "main": "src/test/webapp/app/js/test-main.js",
+    "engines": {
+        "node": ">= 0.10.x"
+    },
+    "dependencies": {"": ""},
+    "devDependencies": {
+        "chai": "*",
+        "expect.js": "*"
+    },
+    "private": false,
+    "scripts": {
+    }
+}
