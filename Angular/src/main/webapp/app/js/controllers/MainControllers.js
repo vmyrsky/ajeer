@@ -20,6 +20,8 @@ angularPOC
 						'ShareDataService',
 						function($scope, $http, $location, RestServices,
 								ShareDataService) {
+							
+							$scope.useDemoData = false;
 							$scope.criteriaString = "";
 							$scope.criteriaTypes = [];
 							$scope.criteriaType = $scope.criteriaTypes[0];
@@ -65,7 +67,6 @@ angularPOC
 								"names" : "Freddy",
 								"lastName" : "Krueger"
 							} ];
-							$scope.useDemoData = false;
 							$scope.newPerson = '';
 
 							// For testing
