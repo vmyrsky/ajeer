@@ -13,10 +13,13 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser (same as you specify in your 'index.html' [phonebook.html])
+    // + some extra for testing
+    // Note: The order of loading stuff is relevant
     files: [
       'main/webapp/app/lib/jquery/jquery-1.10.2.js',
       'main/webapp/app/lib/jquery/jquery-ui-1.10.3.js',
       'main/webapp/app/lib/angular/angular.js',
+      'main/webapp/app/lib/angular/angular-mocks.js',
       'main/webapp/app/lib/angular/angular-translate.min.js',
       'main/webapp/app/lib/angular/angular-translate-loader-static-files.min.js',
       'main/webapp/app/lib/angular/angular-translate-loader-url.min.js',
@@ -29,6 +32,14 @@ module.exports = function(config) {
       'main/webapp/app/js/controllers/MainControllers.js',
       'main/webapp/app/js/controllers/DetailControllers.js',
       'main/webapp/app/js/directives/AddDirectives.js',
+      // Chai enables the tests and expectjs provides something to test with
+      // Require.js is to make these available in tests
+      'test/webapp/app/lib/require.js',
+      'test/webapp/app/lib/assert.js',
+      'test/webapp/app/lib/chai.js',
+      'test/webapp/app/lib/expect.js',
+      // The test-main.js enables the require.js
+//      'test/webapp/app/js/test-main.js',
       // The test files to execute
       'test/webapp/app/js/AppTest.js'
     ],
